@@ -61,7 +61,6 @@ def clean(payload):
 @socketio.on("train")
 # @authenticated_only
 def handle_train(training_inputs):
-    print("RAW  ", {k: (v, type(v).__name__) for k, v in training_inputs.items()})
     try:
         values = clean(training_inputs)
     except ValueError as err:
@@ -70,5 +69,4 @@ def handle_train(training_inputs):
 
     # Begin training
     from .agent import start
-    print("CLEAN ", {k: (v, type(v).__name__) for k, v in values.items()})
     start(**{key: values[key] for key in REQ_TRAINING_INPUTS})

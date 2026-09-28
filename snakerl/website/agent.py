@@ -13,11 +13,13 @@ from flask_login import current_user
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
+MAX_GAMES = 100
 
 class Agent:
 
     def __init__(self, alpha, gamma, epsilon):
-        self.n_games = 0
+        self.n_games = 0 # counter
+        self.max_games = MAX_GAMES
         self.alpha = alpha
         self.gamma = gamma
         self.epsilon_start = epsilon
@@ -87,9 +89,9 @@ class Agent:
 
     def get_action(self, state):
         # random moves: tradeoff exploration / exploitation
-        self.epsilon = self.epsilon_start - self.n_games
+        self.epsilon = max(0, self.epsilon_start - ((self.n_games / self.max_games) * self.epsilon_start))
         final_move = [0,0,0]
-        if random.randint(0, 200) < self.epsilon: # defining logic for exploration
+        if random.random() * 100 < self.epsilon: # defining logic for exploration
             move = random.randint(0, 2)
             final_move[move] = 1
         else:                                       # defining logic for exploitation
@@ -110,7 +112,7 @@ def train(alpha, gamma, epsilon, eat, alive, die):
     score = 0
     agent = Agent(alpha, gamma, epsilon)
     game = SnakeGameAI(eat, alive, die)
-    while agent.n_games <= 100:
+    while agent.n_games < agent.max_games:
         # get old state
         state_old = agent.get_state(game)
 

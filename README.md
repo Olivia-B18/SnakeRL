@@ -56,7 +56,7 @@ Description TBD.
 To run my Snake web app:
 
 ```
-cd snake-plus-plus
+cd snakerl
 
 python main.py
 
@@ -67,4 +67,4 @@ python main.py
 
 * `hinojosa-snake`: the original Snake web app developed by Hinojosa et al. to teach reinforcement learning to middle schoolers.
 * `notes`: my personal notes on research, my progress, and terminal commands.
-* `snake-plus-plus`: my new Snake web app developed to teach reinforcement learning to undergraduate students.
+* `snakerl`: my new Snake web app developed to teach reinforcement learning to undergraduate students.
