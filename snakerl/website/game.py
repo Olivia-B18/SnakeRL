@@ -47,14 +47,7 @@ class SnakeGameAI:
         self.reset()
 
     def reset(self):
-        # init game state
-        self.direction = Direction.RIGHT
-
-        self.head = Point(self.w/2, self.h/2)
-        self.snake = [self.head,
-                      Point(self.head.x-BLOCK_SIZE, self.head.y),
-                      Point(self.head.x-(2*BLOCK_SIZE), self.head.y)]
-
+        self._place_snake()
         self.score = 0
         self.food = None
         self._place_food()
@@ -66,6 +59,18 @@ class SnakeGameAI:
         self.food = Point(x, y)
         if self.food in self.snake:
             self._place_food()
+
+    def _place_snake(self):
+        # randomly pick direction
+        self.direction = np.random.choice(list(Direction), 1)
+
+        # hi
+        self.head = Point(self.w/2, self.h/2)
+
+        # hi
+        self.snake = [self.head,
+                      Point(self.head.x-BLOCK_SIZE, self.head.y),
+                      Point(self.head.x-(2*BLOCK_SIZE), self.head.y)]
 
     def play_step(self, action, games, total_score, record, score):
         global GAMES

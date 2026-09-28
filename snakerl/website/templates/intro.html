@@ -4,24 +4,48 @@
 {% endblock %}
 {% block container %}
     <h1 class="text-center title">Introduction</h1>
+    <h2 class="text-center">What is Reinforcement Learning?</h2>
     <br>
     <div class="text-center">
         <img class="rounded"
              style="max-width: 390px"
-             src="{{ url_for('static', filename='chick1.jpeg') }}"
+             src="{{ url_for('static', filename='chick.jpeg') }}"
              alt="">
     </div>
     <div class="mx-auto mt-5" style="width: 510px;">
-        <p class="text-center">
-            If you give reward a chicken when it does a backflip,
-            it will do more backlips. Also,
-            if you punish a chicken when it
-            misbehaves, it won't misbehave as often. Think of
-            training your AI like this. This method is called
-            <strong>reinforcment learning</strong>. You will
-            be training your AI to play the game snake.
-            But first... play the snake game yourself!
+        <p>
+            If you reward a chick when it does a backflip, it
+            will do more backflips. Similarly, if you punish the
+            chick when it misbehaves, it won't misbehave as much.
         </p>
+        <p>
+            In the same way, you can teach an AI agent how to
+            accomplish its task by having it learn through
+            trial and error. This is the core concept of
+            <b>reinforcement learning (RL)</b>. 
+        </p>
+        <p>
+            Usually, algorithms are told exactly what to do for every
+            scenario, but this <b>step-by-step direction is not always feasible.</b>
+            In the case of the chick, it's difficult to tell it exactly
+            how hard to push off the ground, especially when you must
+            consider how solid the ground is or how windy it may be or
+            what angle the wings should be at for counterbalancing or
+            any number of other factors. 
+        </p>
+        <p>
+            Realistically, we are not teaching chicks backflips,
+            but people do teach robots how to walk, train cars to drive
+            autonomously, and help satellites orbit despite loss of a sensor.
+            Some tasks can become automated for convenience while others, like
+            the satellite, are impossible for a human to do.
+        </p>
+        <p>
+            In SnakeRL, you will learn the basics of RL by teaching
+            an AI agent how to play the classic game Snake. But first...
+            try playing it yourself!
+        </p>
+        <br>
         <div class="mx-auto mt-1" style="width: 200px;">
             <a href="/snake" style="width: 200px;" class="btn button">continue</a>
         </div>

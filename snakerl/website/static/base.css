@@ -4,6 +4,7 @@
     --accent: #47ffa3;
     --accent-hover: #9cffcd;
     --accent-dark: #3cdd8c;
+    --divider-color: rgba(255, 255, 255, 0.3);
     --body-text-size: 20px;
     --button-text-size: 1.5rem;
 }
@@ -21,6 +22,11 @@ a:hover {
 
 p {
     font-size: var(--body-text-size);
+    text-align: justify;
+}
+
+li {
+    font-size: 1.25rem;
 }
 
 label,
@@ -150,6 +156,25 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 
 .container-spacing {
     margin-top: 136px;
+    margin-bottom: 80px;
+}
+
+.katex-display {
+    font-size: 1.25rem;
+}
+
+/* Media Animations */
+
+@media (min-width: 768px) {
+    .column-divider {
+        border-left: 2px solid var(--divider-color);
+    }
+}
+
+.section-divider {
+    border-top: 2px solid var(--divider-color);
+    margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 
 /* Bootstrap overrides */

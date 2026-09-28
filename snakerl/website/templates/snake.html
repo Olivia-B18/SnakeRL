@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='snake.css') }}" />
 {% endblock %}
 {% block container %}
-    <h1 class="text-center title">Try It Yourself</h1>
+    <h1 class="text-center title">Play Classic Snake</h1>
     <br>
     <!-- Game canvas -->
     <div class="game-container">
@@ -18,12 +18,12 @@
     <p class="text-center" id="gameText" style="margin-bottom: 0rem;">GAMES: 0</p>
     <br>
     <!-- Buttons -->
-    <div class="mx-auto mt-1 text-center" style="width: 200px;">
-        <button id="resetBtn" class="btn button">play</button>
+    <div class="mx-auto mt-1" style="width: 200px;">
+        <button id="resetBtn" style="width: 200px;" class="btn button">play</button>
     </div>
     <br>
-    <div class="mx-auto mt-1 text-center" style="width: 200px;">
-        <a href="/untrained" class="btn button">continue</a>
+    <div class="mx-auto mt-1" style="width: 200px;">
+        <a href="/untrained" style="width: 200px;" class="btn button">continue</a>
     </div>
     <script src="{{url_for('static', filename='snake.js')}}"></script>
 {% endblock %}
