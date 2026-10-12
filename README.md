@@ -26,23 +26,21 @@ pip install -r dependencies.txt
 
 ## TrainYourSnakeAI by Hinojosa et al.
 
-The paper for the original tool TrainYourSnakeAI developed by Hinojosa et al.
-can be found at:
-https://dl.acm.org/doi/abs/10.1145/3641554.3701907?__cf_chl_tk=1JzGPd_DFYq4fCy4w0JChaSYk3Zoor3PPA.xu3b0fSo-1788186886-1.0.1.1-LWrl.lPRfxWrd_V.4uFaWngBNk2N92Pbbjb8qB_9J.c
+The paper for TrainYourSnakeAI can be found at: https://dl.acm.org/doi/abs/10.1145/3641554.3701907?__cf_chl_tk=1JzGPd_DFYq4fCy4w0JChaSYk3Zoor3PPA.xu3b0fSo-1788186886-1.0.1.1-LWrl.lPRfxWrd_V.4uFaWngBNk2N92Pbbjb8qB_9J.c
 
 The GitHub repo for TrainYourSnakeAI can be found at:
 https://github.com/cesarihinojosa/train-your-ai
 
-Their repo has been copied into `hinojosa-snake` with minor changes from me
+Their repo has been copied into `trainyoursnakeai` with minor changes from me
 to make the tool run on MacOS. The small fixes I made were to:
 * Commented out function in `game.py` to make Snake platform agnostic (runs on Windows, Linux, and now macOS too).
 * Set port for Snake from default 5000 to 5001 since the default port is sometimes busy on macOS.
-* Update the `hinojosa-snake/README.md` accordingly.
+* Update the `trainyoursnakeai/README.md` accordingly.
 
-To run the Snake web app by Hinojosa et al.:
+To run TrainYourSnakeAI:
 
 ```
-cd hinojosa-snake
+cd trainyoursnakeai
 
 python main.py
 
@@ -53,7 +51,7 @@ python main.py
 
 Description TBD.
 
-To run my Snake web app:
+To run SnakeRL:
 
 ```
 cd snakerl
@@ -65,6 +63,6 @@ python main.py
 
 ## Tour of Directories
 
-* `hinojosa-snake`: the original Snake web app developed by Hinojosa et al. to teach reinforcement learning to middle schoolers.
+* `trainyoursnakeai`: the original Snake web app tool developed by Hinojosa et al. to teach reinforcement learning to middle schoolers.
 * `notes`: my personal notes on research, my progress, and terminal commands.
 * `snakerl`: my new Snake web app developed to teach reinforcement learning to undergraduate students.
