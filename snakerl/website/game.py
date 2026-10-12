@@ -11,20 +11,28 @@ import time
 
 pygame.init()
 
+BLOCK_SIZE = 20
+SPEED = 1000
+GAMES = 0
+INIT_LENGTH = 3
+
+Point = namedtuple('Point', 'x, y')
+
 class Direction(Enum):
     RIGHT = 1
     LEFT = 2
     UP = 3
     DOWN = 4
 
-Point = namedtuple('Point', 'x, y')
+# map direction snake is facing with how coordinates of head change
+STEPS = {
+    "RIGHT": (BLOCK_SIZE, 0),
+    "LEFT": (-BLOCK_SIZE, 0),
+    "UP": (0, -BLOCK_SIZE),
+    "DOWN": (0, BLOCK_SIZE),
+}
 
-
-BLOCK_SIZE = 20
-SPEED = 1000
-GAMES = 0
-
-#publisher of training data
+# publisher of training data
 def send_data(data):
     socketio.emit("snake_data", {"data": data}, to=request.sid, callback=acknowledgment)
 
@@ -37,9 +45,9 @@ def acknowledgment(running):
 
 class SnakeGameAI:
 
-    def __init__(self, eat, alive, die, w=640, h=480):
-        self.w = w
-        self.h = h
+    def __init__(self, eat, alive, die, width=640, height=480):
+        self.w=width
+        self.h=height
         self.eat = eat
         self.alive = alive
         self.die = die
@@ -54,23 +62,37 @@ class SnakeGameAI:
         self.frame_iteration = 0
 
     def _place_food(self):
-        x = random.randint(0, (self.w-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
-        y = random.randint(0, (self.h-BLOCK_SIZE )//BLOCK_SIZE )*BLOCK_SIZE
-        self.food = Point(x, y)
-        if self.food in self.snake:
+        x_food = random.randint(0, (self.w - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
+        y_food = random.randint(0, (self.h - BLOCK_SIZE) // BLOCK_SIZE) * BLOCK_SIZE
+        self.food = Point(x_food, y_food)
+        while self.food in self.snake:
             self._place_food()
 
     def _place_snake(self):
+        # randomly select x and y for head
+        # multiply by an offset so snake always fits on board
+        x_min = (0 + (INIT_LENGTH - 1) * BLOCK_SIZE) // BLOCK_SIZE
+        x_max = (self.w - INIT_LENGTH * BLOCK_SIZE) // BLOCK_SIZE
+        x_head = random.randint(x_min, x_max) * BLOCK_SIZE
+        y_min = (0 + (INIT_LENGTH - 1) * BLOCK_SIZE) // BLOCK_SIZE
+        y_max = (self.h - INIT_LENGTH * BLOCK_SIZE) // BLOCK_SIZE
+        y_head = random.randint(y_min, y_max) * BLOCK_SIZE
+        self.head = Point(x_head, y_head)
+
         # randomly pick direction
-        self.direction = np.random.choice(list(Direction), 1)
+        self.direction = np.random.choice(list(Direction))
 
-        # hi
-        self.head = Point(self.w/2, self.h/2)
+        # get dx and dy according to direction
+        dx, dy = STEPS[self.direction.name]
 
-        # hi
-        self.snake = [self.head,
-                      Point(self.head.x-BLOCK_SIZE, self.head.y),
-                      Point(self.head.x-(2*BLOCK_SIZE), self.head.y)]
+        # fill body of snake with just head
+        self.snake = [self.head]
+
+        # append body of snake
+        for i in range(1, INIT_LENGTH):
+            x_body = self.head.x - i * dx
+            y_body = self.head.y - i * dy
+            self.snake.append(Point(x_body, y_body))
 
     def play_step(self, action, games, total_score, record, score):
         global GAMES
@@ -85,12 +107,6 @@ class SnakeGameAI:
         #     if event.type == pygame.QUIT:
         #         pygame.quit()
         #         quit()
-
-        # OLIVIA'S EDIT:
-        # No user input to collect since training runs in a
-        # socketio background. Thread and the board is drawn
-        # in the browser, not by pygame. Pumping SDL events
-        # off the main thread aborts the process on macOS.
 
         # 2. move
         self._move(action) # update the head
@@ -156,8 +172,8 @@ class SnakeGameAI:
         send_data(data)
 
     def _move(self, action):
-        # [straight, right, left]
-
+        
+        # find new direction where array encoding is [straight, right, left]
         clock_wise = [Direction.RIGHT, Direction.DOWN, Direction.LEFT, Direction.UP]
         idx = clock_wise.index(self.direction)
 
@@ -170,17 +186,11 @@ class SnakeGameAI:
             next_idx = (idx - 1) % 4
             new_dir = clock_wise[next_idx] # left turn r -> u -> l -> d
 
+        # assign new direction
         self.direction = new_dir
 
+        # update head
+        dx, dy = STEPS[self.direction.name]
         x = self.head.x
         y = self.head.y
-        if self.direction == Direction.RIGHT:
-            x += BLOCK_SIZE
-        elif self.direction == Direction.LEFT:
-            x -= BLOCK_SIZE
-        elif self.direction == Direction.DOWN:
-            y += BLOCK_SIZE
-        elif self.direction == Direction.UP:
-            y -= BLOCK_SIZE
-
-        self.head = Point(x, y)
+        self.head = Point(self.head.x + dx, self.head.y + dy)

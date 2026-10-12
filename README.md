@@ -1,8 +1,10 @@
 # SnakeRL: Teaching Reinforcement Learning to Undergraduate Students
 
+<!-- ABOUT -->
+
 ## About
 
-The field of reinforcement learning is quickly growing and shows
+The field of reinforcement learning (RL) is quickly growing and shows
 much promise; however, many research papers exploring the topic
 are too jargon-heavy for newcomers to understand RL or what it
 is about.
@@ -14,17 +16,26 @@ project introduced RL to middle school students using the game Snake,
 and my project seeks to reveal RL more in depth by exposing parameters involved
 in the learning process and is geared towards undergraduate students.
 
+This project was completed in Fall 2026.
+
+<!-- INSTALLATION -->
+
 ## Installation
 
 ```
 # Create a virtual environment with Python 3.12 (I used conda)
-conda create -n sim python=3.12
+conda create -n <name_of_virtual_environment> python=3.12
+
+# Activate the virtual environment (I used conda)
+conda activate <name_of_virtual_environment>
 
 # Install dependencies
 pip install -r dependencies.txt
 ```
 
-## TrainYourSnakeAI Tool
+<!-- TRAINYOURSNAKEAI -->
+
+## TrainYourSnakeAI
 
 ### Sources
 
@@ -35,15 +46,14 @@ https://github.com/cesarihinojosa/train-your-ai
 
 ### Fixes by Me
 
-Their repo has been copied into `trainyoursnakeai` with minor changes from me
-to make the tool run on Windows, Linux, AND MacOS. The small fixes I made were to:
-* Commented out function in `game.py` to make Snake platform agnostic (runs on
-Windows, Linux, and now macOS too).
+The TrainYourSnakeAI repo has been copied into `trainyoursnakeai` with minor changes from me
+to make the tool run on Windows, Linux, AND MacOS. The small fixes I made were:
+* Commented out function in `game.py` since MacOS cannot handle the call.
 * Set port for Snake from default 5000 to 5001 since the default port is 
-sometimes busy on macOS.
+sometimes busy on MacOS.
 * Set `allow_unsafe_werkzeug=True` in `sockietio.run()` call because this app
 is not production-level.
-* Update the `trainyoursnakeai/README.md` accordingly.
+* Updated the `trainyoursnakeai/README.md` accordingly.
 
 ### Running TrainYourSnakeAI
 
@@ -55,7 +65,9 @@ python main.py
 # MANUAL: open the port that loads in a browser <http://localhost:5001>
 ```
 
-## SnakeRL Tool
+<!-- SNAKERL -->
+
+## SnakeRL
 
 ### Description
 
@@ -71,10 +83,21 @@ python main.py
 # MANUAL: open the port that loads in a browser <http://localhost:5001>
 ```
 
+<!-- DIRECTORIES -->
+
 ## Tour of Directories
 
 * `trainyoursnakeai`: the original Snake web app tool developed by Hinojosa et
-al. to teach reinforcement learning to middle schoolers.
+al. to teach RL to middle schoolers.
 * `notes`: my personal notes on research, my progress, and terminal commands.
-* `snakerl`: my new Snake web app developed to teach reinforcement learning to
-undergraduate students.
+* `snakerl`: my new Snake web app developed to teach RL to undergraduate students.
+
+<!-- ACKNOWLEDGEMENTS -->
+
+## Acknowledgements and Credits
+
+A huge thank you to my faculty mentor Professor Coleman for his guidance.
+
+This project was developed with the use of Claude Code Opus 5.5, including:
+debugging, writing new code, breaking down the steps to code what I wanted,
+tracing through the logic of the TrainYourSnakeAI repo, and more.
