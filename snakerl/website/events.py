@@ -1,10 +1,17 @@
 import functools
+import threading
+from flask import request
 from flask_login import current_user
-from flask_socketio import disconnect
+from flask_socketio import disconnect, emit
 from .extensions import socketio
 from .params import PARAMS
 
 REQ_TRAINING_INPUTS = tuple(name for name, spec in PARAMS.items())
+
+# One stop flag per connected client that is currently training, keyed by
+# socket session id. Each user gets their own flag, so stopping one user's
+# training never affects anyone else's.
+stop_flags = {}
 
 # DEV: socket auth is commented out to match views.py where "# @login_required"
 # is disabled while pages are being built. Re-enable "# @authenticated_only"
@@ -23,6 +30,13 @@ def authenticated_only(f):
 # @authenticated_only
 def handle_connect():
     print("client connected")
+
+@socketio.on("disconnect")
+def handle_disconnect():
+    # Closing or leaving the page stops that client's training run.
+    flag = stop_flags.get(request.sid)
+    if flag:
+        flag.set()
 
 @socketio.on("user_join")
 def handle_user_join(username):
@@ -61,12 +75,33 @@ def clean(payload):
 @socketio.on("train")
 # @authenticated_only
 def handle_train(training_inputs):
+    sid = request.sid
+    if sid in stop_flags:
+        print("train: already training")
+        return
+
     try:
         values = clean(training_inputs)
     except ValueError as err:
         print(f"train: {err}")
+        emit("training_done", {"completed": False})
         return
 
-    # Begin training
+    # Begin training; runs until 100 games finish or the client asks to stop
     from .agent import start
-    start(**{key: values[key] for key in REQ_TRAINING_INPUTS})
+    stop_flags[sid] = threading.Event()
+    try:
+        completed, num_games_completed = start(**{key: values[key] for key in REQ_TRAINING_INPUTS},
+                          should_stop=stop_flags[sid].is_set)
+    finally:
+        del stop_flags[sid]
+    emit("training_done", {"completed": completed,
+                           "num_games_completed": num_games_completed,
+                           })
+
+@socketio.on("stop_training")
+# @authenticated_only
+def handle_stop_training():
+    flag = stop_flags.get(request.sid)
+    if flag:
+        flag.set()

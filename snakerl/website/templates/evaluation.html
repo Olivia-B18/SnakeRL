@@ -2,11 +2,118 @@
 {% block title %}
     Evaluation
 {% endblock %}
+{% block head %}
+    <!-- Load Game -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='snake.css') }}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+            integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+            crossorigin="anonymous">
+    </script>
+{% endblock %}
 {% block container %}
     <h1 class="text-center title">Evaluation</h1>
-    <div class="mx-auto mt-5" style="width: 400px;">
-        <div class="mx-auto mt-1" style="width: 200px;">
-            <a href="/conclusion" style="width: 200px;" class="btn button">continue</a>
+
+    <div class="mx-auto mt-5" style="width: 1000px;">
+        <div class="row no-gutters">
+            <!-- Evaluation Details -->
+            <div class="col align-self-start" id="hideEvalSidebar">
+                
+                <!-- Training Settings -->
+                {% if ai %}
+                <div style="width: 300px;" class="d-flex mt-3">
+                    <h5 class="text-left" style="text-decoration: underline;">Training Settings:</h5>
+                </div>
+                <div class="d-flex mt-1">
+                    <div style="width: 200px;">
+                        <h5 class="text-left">{{ params.alpha.label }}:</h5>
+                    </div>
+                    <h5 id="evalAlpha">{{ ai.alpha }}</h5>
+                </div>
+                <div class="d-flex mt-1">
+                    <div style="width: 200px;">
+                        <h5 class="text-left">{{ params.gamma.label }}:</h5>
+                    </div>
+                    <h5 id="evalGamma">{{ ai.gamma }}</h5>
+                </div>
+                <div class="d-flex mt-1">
+                    <div style="width: 200px;">
+                        <h5 class="text-left">{{ params.epsilon.label }}:</h5>
+                    </div>
+                    <h5 id="evalEpsilon">{{ ai.epsilon }}</h5>
+                </div>
+                <div class="d-flex mt-1">
+                    <div style="width: 200px;">
+                        <h5 class="text-left">{{ params.eat.label }} Reward:</h5>
+                    </div>
+                    <h5 id="eatReward">{{ ai.eat }}</h5>
+                </div>
+                <div class="d-flex mt-1">
+                    <div style="width: 200px;">
+                        <h5 class="text-left">{{ params.alive.label }} Reward:</h5>
+                    </div>
+                    <h5 id="aliveReward">{{ ai.alive }}</h5>
+                </div>
+                <div class="d-flex mt-1">
+                    <div style="width: 200px;">
+                        <h5 class="text-left">{{ params.die.label }} Reward:</h5>
+                    </div>
+                    <h5 id="dieReward">{{ ai.die }}</h5>
+                </div>
+                {% else %}
+                <div style="width: 300px;" class="mt-3">
+                    <h5 class="text-left accent-text">You must first completely train an agent to evaluate it.</h5>
+                </div>
+                {% endif %}
+
+                <!-- Evaluation Results -->
+                <div style="width: 300px;" class="d-flex mt-3">
+                    <h5 class="text-left" style="text-decoration: underline;">Results:</h5>
+                </div>
+                <div id="hideOneEpisodeScore">
+                    <div class="d-flex mt-3">
+                        <div style="width: 200px;">
+                            <h5 class="text-left">Final score from 1 episode:</h5>
+                        </div>
+                        <h5 id="oneEpisodeScore"></h5>
+                    </div>                
+                </div>
+                <div id="hideHighestScore">
+                    <div class="d-flex mt-3">
+                        <div style="width: 200px;">
+                            <h5 class="text-left">Highest score from 10 episodes:</h5>
+                        </div>
+                        <h5 id="highestScore"></h5>
+                    </div>                
+                </div>
+                <div id="hideAvgScore">
+                    <div class="d-flex mt-3">
+                        <div style="width: 200px;">
+                            <h5 class="text-left">Average score from 10 episodes:</h5>
+                        </div>
+                        <h5 id="avgScore"></h5>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col align-self-center game-container">
+
+                <!-- Game canvas -->
+                <canvas class="game-board" id="gameBoard" width="640" height="480"></canvas>
+
+                <!-- Buttons -->
+                <div class="col mt-5">
+                    <div class="text-center">
+                        <button style="width: 200px;" class="btn button mx-3" id="evalOnceBtn">evaluate once</button>
+                        <button style="width: 200px;" class="btn button mx-3" id="evalTenBtn">evaluate avg</button>
+                    </div>
+                    <div class="text-center mt-5">
+                        <a href="/training" style="width: 200px;" class="btn button mx-3">back</a>
+                        <a href="/conclusion" style="width: 200px;" class="btn button mx-3">continue</a>
+                    </div>
+                </div>
+                
+            </div>
         </div>
     </div>
+    <script src="{{url_for('static', filename='evalsnake.js')}}"></script>
 {% endblock %}

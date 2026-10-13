@@ -48,5 +48,17 @@
 # Weeks 8-9, Oct. 12 - Oct. ??
 
 * Fix `allow_unsafe_werkzeug` bug.
-* Made it so that snake starts at a different spot each episode
-* ??
+* Made it so that snake starts at a different spot each episode.
+* Removed `GAMES` so that "stop training" stops the entire server
+and no longer saves an agent.
+* Added error message to Training: "Current training must finish
+before training another agent."
+* Sidebar on Evaluation displays training settings and results
+depending on which evaluation button was selected.
+* Fixed `log_to_db()` to actually save the new agent settings.
+* Deleted the old `database.db` so that the new schema would
+work.
+* Various CSS fixes to Training.
+* Fixed the one-frame lag in the Training sidebar display.
+Also clarified the "games" counter to "Games completed."
+* ?

@@ -101,7 +101,8 @@ class Agent:
             final_move[move] = 1
         return final_move
 
-def train(alpha, gamma, epsilon, eat, alive, die):
+def train(alpha, gamma, epsilon, eat, alive, die, should_stop):
+    """Train an agent. Returns None if should_stop() turned true first."""
 
     start_time = time.time()
 
@@ -109,10 +110,13 @@ def train(alpha, gamma, epsilon, eat, alive, die):
     plot_mean_scores = []
     total_score = 0
     record = 0
-    score = 0
     agent = Agent(alpha, gamma, epsilon)
     game = SnakeGameAI(eat, alive, die)
     while agent.n_games < agent.max_games:
+        if should_stop():
+            print("training stopped at game", agent.n_games)
+            return None
+
         # get old state
         state_old = agent.get_state(game)
 
@@ -120,7 +124,7 @@ def train(alpha, gamma, epsilon, eat, alive, die):
         final_move = agent.get_action(state_old)
 
         # perform move and get new state
-        reward, done, score, games = game.play_step(final_move, agent.n_games, total_score, record, score)
+        reward, done, score, games = game.play_step(final_move, agent.n_games, record)
         state_new = agent.get_state(game)
         agent.n_games = games
 
@@ -148,7 +152,7 @@ def train(alpha, gamma, epsilon, eat, alive, die):
 
 def log_to_db(high_score, avg_score, alpha, gamma, epsilon, eat, alive, die, user_id):
     ai = AI(high_score=int(high_score), avg_score=int(avg_score), user_id=user_id,
-            alpha=float(alpha), gamma=float(gamma), epsilon=float(epsilon),
+            alpha=float(alpha), gamma=float(gamma), epsilon=int(epsilon),
             eat=int(eat), alive=int(alive), die=int(die),
             )
     db.session.add(ai)
@@ -162,13 +166,20 @@ def log_to_db(high_score, avg_score, alpha, gamma, epsilon, eat, alive, die, use
 #     socketio.emit("highscore_data", {"data": data}, to=request.sid)
 #     print(data)
 
-def start(alpha, gamma, epsilon, eat, alive, die):
+def start(alpha, gamma, epsilon, eat, alive, die, should_stop):
+    """Train and log the result. Returns True if training ran to completion."""
+    result = train(alpha, gamma, epsilon, eat, alive, die, should_stop)
+    if result is None:
+        print("training stopped -- result not saved")
+        return (False, -1)
 
-    num_games, high_score, avg_score = train(alpha, gamma, epsilon, eat, alive, die)
+    num_games, high_score, avg_score = result
     if current_user.is_authenticated:
         log_to_db(high_score, avg_score, alpha, gamma, epsilon, eat, alive, die, current_user.id)
     else:
         print("not signed in -- training result not saved")
+
+    return (True, num_games)
 
 if __name__ == '__main__':
     start()

@@ -1,5 +1,6 @@
 from flask import render_template, Blueprint
-from flask_login import login_required
+from flask_login import current_user, login_required
+from .dbmodels import AI
 from . import flow
 from .params import PARAMS
 
@@ -47,7 +48,13 @@ def training():
 # @login_required
 # @flow.step("evaluation")
 def evaluation():
-    return render_template("evaluation.html")
+    ai = None
+    if current_user.is_authenticated:
+        ai = (AI.query
+              .filter_by(user_id=current_user.id)
+              .order_by(AI.id.desc())
+              .first())
+    return render_template("evaluation.html", params=PARAMS, ai=ai)
 
 @views.route("/conclusion")
 # @login_required

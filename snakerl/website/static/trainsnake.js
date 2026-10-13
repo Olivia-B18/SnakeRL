@@ -2,7 +2,7 @@ const gameBoard = document.querySelector("#gameBoard");
 const ctx = gameBoard.getContext("2d");
 const scoreText = document.querySelector("#score");
 const gamesText = document.querySelector("#games")
-const hidemeDiv = document.getElementById("hideme")
+const hideTrainingSidebarDiv = document.getElementById("hideTrainingSidebar")
 const highscoreText = document.querySelector("#highscore");
 const gameWidth = gameBoard.width;
 const gameHeight = gameBoard.height;
@@ -19,10 +19,11 @@ let snake = [];
 let numTrainings = 0;
 let games = 0;
 let running = false;
+let stopRequested = false;
 
 const socket = io();
 
-hidemeDiv.style.display = "none";
+hideTrainingSidebarDiv.style.display = "none";
 
 /* Draw messages on game canvas */
 
@@ -52,35 +53,76 @@ trainingInputElements.forEach((trainingInputElement) => {
     trainingInputElement.dispatchEvent(new Event("input"));
 })
 
+/* Show a dismissible error banner, matching the flash messages in base.html */
+
+function showError(text) {
+    // don't stack the same message if the button is clicked repeatedly
+    const existing = Array.from(document.querySelectorAll(".alert"));
+    if (existing.some((alert) => alert.dataset.message === text)) {
+        return;
+    }
+
+    const alert = document.createElement("div");
+    alert.className = "alert alert-danger alert-dismissible";
+    alert.setAttribute("role", "alert");
+    alert.dataset.message = text;
+    alert.textContent = text;
+
+    const closeBtn = document.createElement("button");
+    closeBtn.type = "button";
+    closeBtn.className = "close";
+    closeBtn.setAttribute("aria-label", "Close");
+    closeBtn.innerHTML = '<span aria-hidden="true">&times;</span>';
+    closeBtn.addEventListener("click", () => alert.remove());
+    alert.appendChild(closeBtn);
+
+    document.getElementById("flash-messages").appendChild(alert);
+}
+
 /* call training when "train" button clicked */
 document.getElementById("trainBtn").addEventListener("click", function () {
-    if (!running) {
+    if (running) {
+        showError("Current training must complete or be stopped before training again.");
+    }
+    else {
         running = true;
         const trainingInputValues = Object.fromEntries(
             Array.from(trainingInputElements, (slider) => [slider.id, slider.value])
         );
         socket.emit("train", trainingInputValues);
-        hidemeDiv.style.display = "block";
+        hideTrainingSidebarDiv.style.display = "block";
     }
-
 })
 
+/* ask the server to stop training when "stop training" button clicked */
 document.getElementById("offBtn").addEventListener("click", function () {
-    running = false;
+    if (running && !stopRequested) {
+        stopRequested = true;
+        socket.emit("stop_training");
+    }
 })
 
-function updateRunning() {
-    if (games > 98) {
-        running = false;
+/* server finished training, either all games played or stopped early */
+socket.on("training_done", function (data) {
+    running = false;
+    stopRequested = false;
+    clearBoard();
+    if (data["completed"]) {
         drawMessage("training concluded");
+        games = data["num_games_completed"];
     }
     else {
-        running = true;
+        drawMessage("training stopped");
     }
-}
+    drawStats();   
+})
 
 //subscriber to training data
-socket.on("snake_data", function (data, callback) {
+socket.on("snake_data", function (data) {
+    // ignore frames still in flight after "stop training" was clicked
+    if (stopRequested) {
+        return;
+    }
     clearBoard();
     foodX = data["data"]["apple"]["x"];
     foodY = data["data"]["apple"]["y"];
@@ -91,16 +133,6 @@ socket.on("snake_data", function (data, callback) {
     drawFood();
     drawSnake();
     drawStats();
-    console.log("running: " + running)
-    if (running) {
-    }
-    else {
-        games = 0
-        clearBoard();
-        drawMessage("training concluded");
-        return callback(false)
-    }
-    updateRunning();
 })
 
 function clearBoard() {
@@ -125,10 +157,5 @@ function drawSnake() {
 function drawStats() {
     scoreText.textContent = score;
     highscoreText.textContent = gameScore;
-    if (games == 1000) {
-        gamesText.textContent = "0/100"
-    }
-    else {
-        gamesText.textContent = games + "/100"
-    }
+    gamesText.textContent = games + "/100"
 }

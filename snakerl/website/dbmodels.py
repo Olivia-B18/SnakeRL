@@ -3,8 +3,11 @@ from flask_login import UserMixin
 
 class AI(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    high_score = db.Column(db.Integer)
-    avg_score = db.Column(db.Integer)
+    high_score = db.Column(db.Integer) # from training
+    avg_score = db.Column(db.Integer) # from training
+    alpha = db.Column(db.Float)
+    gamma = db.Column(db.Float)
+    epsilon = db.Column(db.Integer)
     eat = db.Column(db.Integer)
     alive = db.Column(db.Integer)
     die = db.Column(db.Integer)

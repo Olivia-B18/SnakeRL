@@ -13,7 +13,6 @@ pygame.init()
 
 BLOCK_SIZE = 20
 SPEED = 1000
-GAMES = 0
 INIT_LENGTH = 3
 
 Point = namedtuple('Point', 'x, y')
@@ -34,14 +33,7 @@ STEPS = {
 
 # publisher of training data
 def send_data(data):
-    socketio.emit("snake_data", {"data": data}, to=request.sid, callback=acknowledgment)
-
-def acknowledgment(running):
-    if (not running):
-        global GAMES
-        GAMES = 1000
-        time.sleep(0.3)
-        GAMES = 0
+    socketio.emit("snake_data", {"data": data}, to=request.sid)
 
 class SnakeGameAI:
 
@@ -94,12 +86,7 @@ class SnakeGameAI:
             y_body = self.head.y - i * dy
             self.snake.append(Point(x_body, y_body))
 
-    def play_step(self, action, games, total_score, record, score):
-        global GAMES
-        if (GAMES == 1000):
-            games = 1000
-            GAMES = 0
-
+    def play_step(self, action, games, record):
         self.frame_iteration += 1
 
         # 1. collect user input
@@ -129,7 +116,7 @@ class SnakeGameAI:
             self.snake.pop()
         
         # 5. update ui and clock
-        self._update_ui(games, total_score, record, score)
+        self._update_ui(games, record)
         self.clock.tick(SPEED)
 
         # 6. return game over and score
@@ -147,11 +134,16 @@ class SnakeGameAI:
 
         return False
 
-    def _update_ui(self, games, total_score, record, score):
+    def _update_ui(self, games, record):
 
         data = {}
         data['snake'] = []
-        data['stats'] = {'games': games, 'record': record, 'score': score}
+        # Send this step's score (self.score), not the previous step's. The
+        # record only updates when a game ends, so show the current score
+        # if it has already beaten it.
+        data['stats'] = {'games': games,
+                         'record': max(record, self.score),
+                         'score': self.score}
 
         i = 0
         for pt in self.snake:

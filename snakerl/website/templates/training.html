@@ -3,6 +3,7 @@
     Training
 {% endblock %}
 {% block head %}
+    <!-- Load Game -->
     <link rel="stylesheet" href="{{ url_for('static', filename='snake.css') }}" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
             integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
@@ -10,52 +11,39 @@
     </script>
 {% endblock %}
 {% block container %}
-    <div class="mx-auto mt-3" style="width: 1000px;">
-        <h1 class="text-center title">Training an Agent</h1>
-        <br>
-        <div class="row">
+    <h1 class="text-center title">Training an Agent</h1>
+
+    <div class="mx-auto mt-5" style="width: 1000px;">
+        <div class="row no-gutters">
             <!-- Training Score Progression -->
-            <div class="col align-self-start" id="hideme">
-                <br>
-                <br>
-                <br>
-                <div class="row">
+            <div class="col align-self-start" id="hideTrainingSidebar">
+                <div class="d-flex">
                     <div style="width: 200px;">
-                        <h5 class="text-left">score</h5>
+                        <h5 class="text-left"> Current score:</h5>
                     </div>
                     <h5 id="score">0</h5>
                 </div>
-                <br>
-                <br>
-                <div class="row">
+                <div class="d-flex mt-5">
                     <div style="width: 200px;">
-                        <h5 class="text-left">your high score:</h5>
+                        <h5 class="text-left">Your high score:</h5>
                     </div>
                     <h5 id="highscore">0</h5>
                 </div>
-                <br>
-                <br>
-                <div class="row">
+                <div class="d-flex mt-5">
                     <div style="width: 200px;">
-                        <h5 class="text-left accent-text">highscore</h5>
+                        <h5 class="text-left accent-text">TrainYourSnakeAI high score:</h5>
                     </div>
                     <h5 class="accent-text">40</h5>
                 </div>
-                <br>
-                <br>
-                <div class="row">
+                <div class="d-flex mt-5">
                     <div style="width: 200px;">
-                        <h5 class="text-left">games:</h5>
+                        <h5 class="text-left">Games completed:</h5>
                     </div>
                     <h5 id="games">0/100</h5>
                 </div>
-                <br>
-                <br>
-                <div style="width: 300px;" class="row">
+                <div style="width: 300px;" class="d-flex mt-5">
                     <h5 class="accent-text">notice how the AI(snake) behaves differently based off how you trained it...</h5>
                 </div>
-                <br>
-                <br>
             </div>
             <!-- Game canvas, sliders, and buttons -->
             <div class="col align-self-center game-container">
@@ -178,11 +166,11 @@
                 <!-- Buttons -->
                 <div class="col">
                     <div class="text-center">
-                        <button style="width: 240px;" class="btn button mx-3" id="trainBtn">train</button>
-                        <button style="width: 240px;" class="btn button mx-3" id="offBtn">stop training</button>
+                        <button style="width: 200px;" class="btn button mx-3" id="trainBtn">train</button>
+                        <button style="width: 200px;" class="btn button mx-3" id="offBtn">stop training</button>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="/evaluation" style="width: 240px;" class="btn button">continue</a>
+                        <a href="/evaluation" style="width: 200px;" class="btn button">continue</a>
                     </div>
                 </div>
             </div>
