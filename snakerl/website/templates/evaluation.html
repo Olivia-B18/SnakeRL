@@ -16,7 +16,7 @@
     <div class="mx-auto mt-5" style="width: 1000px;">
         <div class="row no-gutters">
             <!-- Evaluation Details -->
-            <div class="col align-self-start" id="hideEvalSidebar">
+            <div class="col align-self-start" id="hideEvalSidebar" data-has-agent="{{ 'true' if ai else 'false' }}">
                 
                 <!-- Training Settings -->
                 {% if ai %}
@@ -58,10 +58,6 @@
                         <h5 class="text-left">{{ params.die.label }} Reward:</h5>
                     </div>
                     <h5 id="dieReward">{{ ai.die }}</h5>
-                </div>
-                {% else %}
-                <div style="width: 300px;" class="mt-3">
-                    <h5 class="text-left accent-text">You must first completely train an agent to evaluate it.</h5>
                 </div>
                 {% endif %}
 

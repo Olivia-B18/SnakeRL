@@ -16,12 +16,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap"
               rel="stylesheet">
         <link rel="stylesheet" href="{{ url_for('static', filename='base.css') }}" />
+        <script src="{{ url_for('static', filename='shared.js') }}"></script>
         {% block head %}{% endblock %}
         <title>{% block title %}Base{% endblock %}</title>
     </head>
     <body>
-        <!-- Display error messages; pinned to the top of the window. Page
-             scripts also add banners here (see showError in trainsnake.js). -->
         <div id="flash-messages" class="flash-messages">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}

@@ -6,6 +6,8 @@ const hideAvgScoreDiv = document.getElementById("hideAvgScore")
 
 /* other variables */
 let running = false;
+const hasTrainedAgent = hideEvalSidebarDiv.dataset.hasAgent === "true";
+const noAgentMessage = "You must first completely train an agent to evaluate it.";
 
 /* hide sidebar content upon first page load */
 hideEvalSidebarDiv.style.display = "none";
@@ -15,7 +17,10 @@ hideAvgScoreDiv.style.display = "none";
 
 /* what to do when evalOnceBtn is clicked */
 document.getElementById("evalOnceBtn").addEventListener("click", function () {
-    if (!running) {
+    if (!hasTrainedAgent) {
+        showError(noAgentMessage);
+    }
+    else if (!running) {
         // running = true;
         // const trainingInputValues = Object.fromEntries(
         //     Array.from(trainingInputElements, (slider) => [slider.id, slider.value])
@@ -32,7 +37,10 @@ document.getElementById("evalOnceBtn").addEventListener("click", function () {
 
 /* what to do when evalTenBtn is clicked */
 document.getElementById("evalTenBtn").addEventListener("click", function () {
-    if (!running) {
+    if (!hasTrainedAgent) {
+        showError(noAgentMessage);
+    }
+    else if (!running) {
         // running = true;
         // const trainingInputValues = Object.fromEntries(
         //     Array.from(trainingInputElements, (slider) => [slider.id, slider.value])
