@@ -20,11 +20,11 @@ def home():
 def intro():
     return render_template("intro.html")
 
-@views.route("/snake")
+@views.route("/playsnake")
 # @login_required
-# @flow.step("snake")
-def snake():
-    return render_template("snake.html")
+# @flow.step("playsnake")
+def playsnake():
+    return render_template("playsnake.html")
 
 @views.route("/untrained")
 # @login_required

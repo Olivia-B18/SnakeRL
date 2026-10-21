@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% block title %}
-    Snake
+    PlaySnake
 {% endblock %}
 {% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='snake.css') }}" />
 {% endblock %}
 {% block container %}
-    <h1 class="text-center title">Play Classic Snake</h1>
+    <h1 class="text-center title">Play Snake</h1>
     <br>
     <!-- Game canvas -->
     <div class="game-container">
@@ -25,5 +25,6 @@
     <div class="mx-auto mt-1" style="width: 200px;">
         <a href="/untrained" style="width: 200px;" class="btn button">continue</a>
     </div>
-    <script src="{{url_for('static', filename='snake.js')}}"></script>
+    <script src="{{url_for('static', filename='snakecanvas.js')}}"></script>
+    <script src="{{url_for('static', filename='playsnake.js')}}"></script>
 {% endblock %}

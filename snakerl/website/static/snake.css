@@ -1,8 +1,10 @@
-.game-container {
+/* STYLING FOR SNAKE GAMES */
+
+.game-container { /* The div to hold the game */
     text-align: center;
 }
 
-.game-board {
+.game-board { /* The actual game board */
     border: 3px solid;
     border-radius: 4%;
     background-color: white;

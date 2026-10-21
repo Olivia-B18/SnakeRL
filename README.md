@@ -1,5 +1,10 @@
 # SnakeRL: Teaching Reinforcement Learning to Undergraduate Students
 
+## TODO:
+1. Mandate users must be signed in.
+2. Mandate pages must be visited in a certain flow.
+3. Update `load_agent()` to load from filename instead of hardcoded model_20.pth.  
+
 <!-- ABOUT -->
 
 ## About

@@ -4,7 +4,7 @@ Linear flow enforcement for the guided lesson.
 The lesson is meant to be walked in one order:
 
     1. Intro
-    2. Snake
+    2. PlaySnake
     3. Untrained
     4. Parameters
     5. Training
@@ -16,13 +16,12 @@ answers if a person is signed in, not managing locking pages.
 """
 
 from functools import wraps
-
 from flask import flash, redirect, session, url_for
 
 # The lesson pages in the order they must be visited. These are view function
 # names on the `views` blueprint.
 FLOW = ["intro",
-        "snake",
+        "playsnake",
         "untrained",
         "parameters",
         "training",

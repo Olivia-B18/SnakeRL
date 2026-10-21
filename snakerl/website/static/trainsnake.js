@@ -1,97 +1,112 @@
-const gameBoard = document.querySelector("#gameBoard");
-const ctx = gameBoard.getContext("2d");
+/* 
+JavaScript for the training page.
+*/
+
+/* CONSTANTS AND VARIABLES */
+
+// Sidebar to show/hide
+const hideTrainingSidebarDiv = document.getElementById("hideTrainingSidebar")
+
+// HTML text for training stats
 const scoreText = document.querySelector("#score");
 const gamesText = document.querySelector("#games")
-const hideTrainingSidebarDiv = document.getElementById("hideTrainingSidebar")
 const highscoreText = document.querySelector("#highscore");
-const gameWidth = gameBoard.width;
-const gameHeight = gameBoard.height;
-const boardBackground = "white";
-const snakeColor = "lightgreen";
-const snakeBorder = "black";
-const foodColor = "red";
-const unitSize = 20;
-let foodX;
-let foodY;
+
+// Slider elements
+const trainingInputElements = document.getElementById("training-sliders").querySelectorAll("input[type=range]");
+
+// Connection to the server
+const socket = io();
+
+// Values training stats
 let score = 0;
 let gameScore = 0;
-let snake = [];
-let numTrainings = 0;
 let games = 0;
+let numTrainings = 0;
+
+// The snake
+snake = []
+
+// Flags for if training is in progress
 let running = false;
 let stopRequested = false;
 
-const socket = io();
+/* SET UP TRAINING ARENA */
 
+// Hide sidebar
 hideTrainingSidebarDiv.style.display = "none";
 
-/* Draw messages on game canvas */
-
-const messageFont = `35px ${getComputedStyle(document.body).fontFamily}`;
-
-function drawMessage(text) {
-    ctx.font = messageFont;
-    ctx.fillStyle = "black";
-    ctx.textAlign = "center";
-    ctx.fillText(text, gameWidth / 2, gameHeight / 2);
-}
-
+// Draw message to canvas
 document.fonts.load(messageFont)
     .catch(() => { })
-    .then(() => drawMessage("training arena"));
+    .then(() => drawMessage("training arena", gameWidth / 2, gameHeight / 2));
 
-/* Update the output element's value according to the slider value */
+/* JAVASCRIPT FOR SLIDERS */
 
-function updateDisplayOutput(inputEvent) {
-    const trainingOutput = document.querySelector(`output[for="${inputEvent.target.id}"]`);
-    trainingOutput.value = inputEvent.target.value;
-}
-
-const trainingInputElements = document.getElementById("training-sliders").querySelectorAll("input[type=range]");
+// Update selected value of each slider by calling updateDisplayOutput()
 trainingInputElements.forEach((trainingInputElement) => {
     trainingInputElement.addEventListener("input", updateDisplayOutput);
     trainingInputElement.dispatchEvent(new Event("input"));
 })
 
-/* call training when "train" button clicked */
+// Update selected value of a single slider
+function updateDisplayOutput(inputEvent) {
+    const trainingOutput = document.querySelector(`output[for="${inputEvent.target.id}"]`);
+    trainingOutput.value = inputEvent.target.value;
+}
+
+/* DEFINE ACTIVATION OF TRAINING BUTTONS */
+
+// trainBtn: tell server to "train"
 document.getElementById("trainBtn").addEventListener("click", function () {
     if (running) {
         showError("Current training must complete or be stopped before training again.");
     }
     else {
         running = true;
+
+        // Get selected slider settings from browser
         const trainingInputValues = Object.fromEntries(
             Array.from(trainingInputElements, (slider) => [slider.id, slider.value])
         );
+
         socket.emit("train", trainingInputValues);
         hideTrainingSidebarDiv.style.display = "block";
     }
 })
 
-/* ask the server to stop training when "stop training" button clicked */
-document.getElementById("offBtn").addEventListener("click", function () {
+// trainOffBtn: stop training
+document.getElementById("trainOffBtn").addEventListener("click", function () {
     if (running && !stopRequested) {
         stopRequested = true;
-        socket.emit("stop_training");
+        socket.emit("stop_episode");
     }
 })
 
-/* server finished training, either all games played or stopped early */
+// Server finished training: either all training completed or stopped early */
 socket.on("training_done", function (data) {
+
+    // Turn training arena off
     running = false;
     stopRequested = false;
     clearBoard();
+
+    // If training completed, get and display training stats.
+    // Else, training was stopped early.
     if (data["completed"]) {
-        drawMessage("training concluded");
+        drawMessage("training concluded", gameWidth / 2, gameHeight / 2);
         games = data["num_games_completed"];
     }
     else {
-        drawMessage("training stopped");
+        drawMessage("training stopped", gameWidth / 2, gameHeight / 2);
     }
-    drawStats();   
+
+    // Draw stats 
+    drawTrainingStats();   
 })
 
-//subscriber to training data
+/* DRAW SNAKE DURING TRAINIG */
+
 socket.on("snake_data", function (data) {
     // ignore frames still in flight after "stop training" was clicked
     if (stopRequested) {
@@ -106,29 +121,11 @@ socket.on("snake_data", function (data) {
     gameScore = data["data"]["stats"]["record"];
     drawFood();
     drawSnake();
-    drawStats();
+    drawTrainingStats();
 })
 
-function clearBoard() {
-    ctx.fillStyle = boardBackground;
-    ctx.fillRect(0, 0, gameWidth, gameHeight);
-};
-
-function drawFood() {
-    ctx.fillStyle = foodColor;
-    ctx.fillRect(foodX, foodY, unitSize, unitSize);
-};
-
-function drawSnake() {
-    ctx.fillStyle = snakeColor;
-    ctx.strokeStyle = snakeBorder;
-    snake.forEach(snakePart => {
-        ctx.fillRect(snakePart.x, snakePart.y, unitSize, unitSize);
-        ctx.strokeRect(snakePart.x, snakePart.y, unitSize, unitSize);
-    })
-};
-
-function drawStats() {
+/* Draw training stats */
+function drawTrainingStats() {
     scoreText.textContent = score;
     highscoreText.textContent = gameScore;
     gamesText.textContent = games + "/100"

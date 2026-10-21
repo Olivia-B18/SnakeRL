@@ -11,9 +11,9 @@
     </script>
 {% endblock %}
 {% block container %}
-    <h1 class="text-center title">Training an Agent</h1>
-
     <div class="mx-auto mt-5" style="width: 1000px;">
+        <h1 class="text-center title">Training an Agent</h1>
+        <br>
         <div class="row no-gutters">
             <!-- Training Score Progression -->
             <div class="col align-self-start" id="hideTrainingSidebar">
@@ -167,7 +167,7 @@
                 <div class="col">
                     <div class="text-center">
                         <button style="width: 200px;" class="btn button mx-3" id="trainBtn">train</button>
-                        <button style="width: 200px;" class="btn button mx-3" id="offBtn">stop training</button>
+                        <button style="width: 200px;" class="btn button mx-3" id="trainOffBtn">stop training</button>
                     </div>
                     <div class="text-center mt-5">
                         <a href="/evaluation" style="width: 200px;" class="btn button">continue</a>
@@ -176,5 +176,6 @@
             </div>
         </div>
     </div>
+    <script src="{{url_for('static', filename='snakecanvas.js')}}"></script>
     <script src="{{url_for('static', filename='trainsnake.js')}}"></script>
 {% endblock %}

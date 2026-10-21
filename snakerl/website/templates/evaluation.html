@@ -11,9 +11,9 @@
     </script>
 {% endblock %}
 {% block container %}
-    <h1 class="text-center title">Evaluation</h1>
-
     <div class="mx-auto mt-5" style="width: 1000px;">
+        <h1 class="text-center title">Evaluation</h1>
+        <br>
         <div class="row no-gutters">
             <!-- Evaluation Details -->
             <div class="col align-self-start" id="hideEvalSidebar" data-has-agent="{{ 'true' if ai else 'false' }}">
@@ -70,7 +70,7 @@
                         <div style="width: 200px;">
                             <h5 class="text-left">Final score from 1 episode:</h5>
                         </div>
-                        <h5 id="oneEpisodeScore"></h5>
+                        <h5 id="oneEpisodeScoreText"></h5>
                     </div>                
                 </div>
                 <div id="hideHighestScore">
@@ -78,7 +78,7 @@
                         <div style="width: 200px;">
                             <h5 class="text-left">Highest score from 10 episodes:</h5>
                         </div>
-                        <h5 id="highestScore"></h5>
+                        <h5 id="highestScoreText"></h5>
                     </div>                
                 </div>
                 <div id="hideAvgScore">
@@ -86,7 +86,7 @@
                         <div style="width: 200px;">
                             <h5 class="text-left">Average score from 10 episodes:</h5>
                         </div>
-                        <h5 id="avgScore"></h5>
+                        <h5 id="avgScoreText"></h5>
                     </div>
                 </div>
 
@@ -101,6 +101,7 @@
                     <div class="text-center">
                         <button style="width: 200px;" class="btn button mx-3" id="evalOnceBtn">evaluate once</button>
                         <button style="width: 200px;" class="btn button mx-3" id="evalTenBtn">evaluate avg</button>
+                        <button style="width: 200px;" class="btn button mx-3" id="evalOffBtn">stop eval</button>
                     </div>
                     <div class="text-center mt-5">
                         <a href="/training" style="width: 200px;" class="btn button mx-3">back</a>
@@ -111,5 +112,6 @@
             </div>
         </div>
     </div>
+    <script src="{{url_for('static', filename='snakecanvas.js')}}"></script>
     <script src="{{url_for('static', filename='evalsnake.js')}}"></script>
 {% endblock %}

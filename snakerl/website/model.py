@@ -5,6 +5,10 @@ import torch.nn.functional as F
 import os
 
 class Linear_QNet(nn.Module):
+    """
+    Linear neural network model.
+    """
+
     def __init__(self, input_size, hidden_size, output_size):
         super().__init__()
         self.linear1 = nn.Linear(input_size, hidden_size)
@@ -25,6 +29,11 @@ class Linear_QNet(nn.Module):
 
 
 class QTrainer:
+    """
+    Trains long-term and short-term memory of a model
+    with minibatches and individual observations, respectively.
+    """
+
     def __init__(self, model, lr, gamma):
         self.lr = lr
         self.gamma = gamma

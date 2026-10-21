@@ -1,4 +1,8 @@
-/* Theme colors */
+/*
+CSS Styling for the entire SnakeRL web app tool.
+*/
+
+/* THEME COLORS */
 :root{
     --bg-color: #2b2c3f;
     --accent: #47ffa3;
@@ -9,7 +13,7 @@
     --button-text-size: 1.5rem;
 }
 
-/* Format built-in elements */
+/* STYLING FOR BUILT-IN ELEMENTS */
 
 a {
     color: var(--accent);
@@ -44,7 +48,7 @@ select {
     border-radius: 0.25rem;
 }
 
-datalist {
+datalist { /* For displaying intervals of slider values  */
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -57,13 +61,13 @@ option {
     padding: 0;
 }
 
-input[type="range"] {
+input[type="range"] { /* Customize slider inputs */
     width: 200px;
     margin: 0;
     -webkit-appearance: none;
 }
 
-/* Format the slider thumbs */
+/* STYLING FOR SLIDER THUMBS */
 
 input[type="range"]::-webkit-slider-thumb {
     background-color: var(--accent-dark);
@@ -112,7 +116,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
-/* Custom class definitions */
+/* CUSTOM CLASS DEFINTIONS */
 
 .accent-text {
     color: var(--accent);
@@ -141,8 +145,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 }
 
 .button:focus {
-      box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent)
-  50%, transparent);
+      box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
   }
 
 .hide {
@@ -159,11 +162,11 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     margin-bottom: 80px;
 }
 
-.katex-display {
+.katex-display { /* Styling for rendering LaTeX-like formulas */
     font-size: 1.25rem;
 }
 
-/* Media Animations */
+/* STYLING FOR VERTICAL TEXT DIVIDER (on parameters page) */
 
 @media (min-width: 768px) {
     .column-divider {
@@ -177,9 +180,10 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     margin-bottom: 3rem;
 }
 
-/* Flash messages stay pinned to the top of the window while scrolling */
+/* STYLING FOR ERROR MESSAGE BANNERS */
+
 .flash-messages {
-    position: fixed;
+    position: fixed; /* Keep error messages pinned to top of window while scrolling */
     top: 1rem;
     left: 1rem;
     right: 1rem;
@@ -192,9 +196,10 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     margin-bottom: 0.5rem;
 }
 
-/* Bootstrap overrides */
+/* BOOTSTRAP OVERRIDES */
 
 /* Flash message close button: same color as the alert text */
+
 .alert .close,
 .alert .close:hover {
     color: inherit;
