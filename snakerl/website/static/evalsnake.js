@@ -136,7 +136,7 @@ document.getElementById("evalOffBtn").addEventListener("click", function () {
 /* DRAW SNAKE DURING EVALUATION */
 
 socket.on("snake_data", function (data) {
-    // ignore frames still in flight after "stop training" was clicked
+    // ignore frames still in flight after "stop eval" was clicked
     if (stopRequested) {
         return;
     }

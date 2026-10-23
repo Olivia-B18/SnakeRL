@@ -1,5 +1,5 @@
 /* Show a dismissible error banner */
--
+
 function showError(text) {
     // don't stack the same message if the button is clicked repeatedly
     const existing = Array.from(document.querySelectorAll(".alert"));

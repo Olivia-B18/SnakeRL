@@ -147,7 +147,7 @@ def train(alpha, gamma, epsilon, eat, alive, die, should_stop):
     # Return
     return agent.n_games, record, mean_score, agent.model
 
-def evaluate(ai_id, episodes, should_stop):
+def evaluate(agent, episodes, speed, should_stop):
     """
     Evlaluation process for an agent.
     """
@@ -155,16 +155,8 @@ def evaluate(ai_id, episodes, should_stop):
     # Set up score
     scores = []
 
-    # Create filename
-    filename = "model_" + str(ai_id) + ".pth"
-
-    # Make agent
-    agent = load_agent(filename)
-    if agent is None:
-        return None
-
     # Set game speed
-    speed = 30 if episodes == 1 else 400
+    speed = speed
 
     # Make Snake game
     game = SnakeGameAI(0, 0, 0, speed=speed) # reward values don't matter since no training

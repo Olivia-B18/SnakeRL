@@ -74,7 +74,7 @@ Change how agents are saved:
 * Somehow, got a really good agent `model_20.pth` that earns
 about 47 rewards.
 
-Complete evaluation page:
+Complete evaluation and untrained agent pages:
 * Done. Finallyyyyy.
 
 General codebase improvements:
@@ -82,7 +82,3 @@ General codebase improvements:
 * Split training/eval/playsnake JavaScript into separate files and put
 shared code in new file `snakecanvas.js`
 * Moved error banner JavaScript to separate file `flasherror.js`
-
-Next up:
-* Fix focus on playsnake
-* Finish untrained agent

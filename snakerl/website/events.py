@@ -6,9 +6,12 @@ from .dbmodels import AI
 from flask_socketio import disconnect, emit
 from .extensions import socketio
 from .params import PARAMS
+from .agent import Agent, load_agent
 
 REQ_TRAINING_INPUTS = tuple(name for name, spec in PARAMS.items())
 VALID_NUM_EPISODES = [1, 10]
+EVAL_SPEED_SLOW = 30
+EVAL_SPEED_FAST = 400
 
 # One stop flag per connected client that is currently training, keyed by
 # socket session id. Each user gets their own flag, so stopping one user's
@@ -121,7 +124,7 @@ def handle_train(training_inputs):
 # @ authenticated_only
 def handle_evaluate(evaluation_inputs):
     """
-    Server evaluates an agent.
+    Server evaluates a trained agent.
     """
 
     # Check if "evaluate" button was hit while evaluation is already is in progress
@@ -146,17 +149,74 @@ def handle_evaluate(evaluation_inputs):
         emit("evaluation_done", {"completed": False})
         return
 
-    # Check that an AI was created
+    # Check that an AI was found
     if ai is None:
         emit("evaluation_done", {"completed": False})
         return
+
+    # Create an Agent
+    filename = "model_" + str(ai.id) + ".pth"
+    agent = load_agent(filename)
+    if agent is None:
+        emit("evaluation_done", {"completed": False})
+        return None
+
+    # Set game speed
+    speed = EVAL_SPEED_SLOW if num_episodes == 1 else EVAL_SPEED_FAST
 
     # Begin evaluation: run 1 or 10 episodes or until client asks to stop
     from .agent import evaluate
     stop_flags[sid] = threading.Event()
     scores = None
     try:
-        scores = evaluate(ai_id=ai.id, episodes=num_episodes, should_stop=stop_flags[sid].is_set)
+        scores = evaluate(agent=agent,
+                          speed=speed,
+                          episodes=num_episodes,
+                          should_stop=stop_flags[sid].is_set,
+                          )
+    finally:
+        del stop_flags[sid]
+
+        # Report evaluation results
+        if scores is None:
+            emit("evaluation_done", {"completed": False})
+        else:
+            emit("evaluation_done", {"completed": True,
+                                    "scores": scores,
+                                    })
+
+@socketio.on("evaluate_untrained")
+# @ authenticated_only
+def handle_evaluate_untrained(evaluation_inputs):
+    """
+    Server evaluates untrained agent.
+    """
+
+    # Check if "evaluate" button was hit while evaluation is already is in progress
+    sid = request.sid
+    if sid in stop_flags:
+        print("evaluate: already evaluating")
+        return
+
+    # Validate the number of episodes to evaluate for
+    num_episodes = evaluation_inputs.get("numEpisodes")
+    if num_episodes not in VALID_NUM_EPISODES:
+        emit("evaluation_done", {"completed": False})
+        return
+
+    # Create an Agent
+    agent = Agent(0, 0, 0)
+
+    # Begin evaluation: run 1 or 10 episodes or until client asks to stop
+    from .agent import evaluate
+    stop_flags[sid] = threading.Event()
+    scores = None
+    try:
+        scores = evaluate(agent=agent,
+                          speed=EVAL_SPEED_SLOW,
+                          episodes=num_episodes,
+                          should_stop=stop_flags[sid].is_set,
+                          )
     finally:
         del stop_flags[sid]
 
