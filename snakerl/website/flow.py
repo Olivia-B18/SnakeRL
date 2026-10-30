@@ -9,7 +9,7 @@ The lesson is meant to be walked in one order:
     4. Parameters
     5. Training
     6. Evaluation
-    7. Conclusion
+    7. Reflection
 
 Flow maintained in this file because login_required only
 answers if a person is signed in, not managing locking pages.
@@ -26,7 +26,7 @@ FLOW = ["intro",
         "parameters",
         "training",
         "evaluation",
-        "conclusion",
+        "reflection",
         ]
 
 SESSION_KEY = "flow_unlocked"

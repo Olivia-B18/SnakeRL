@@ -46,7 +46,7 @@
 * Design and print memory poster.
 * Present poster at CCSC.
 
-# Weeks 8-9, Oct. 12 - Oct. 26
+# Weeks 8-9, Oct. 12 - Oct. 23
 
 Small bug fixes and error handling:
 * Fix `allow_unsafe_werkzeug` bug.
@@ -82,3 +82,10 @@ General codebase improvements:
 * Split training/eval/playsnake JavaScript into separate files and put
 shared code in new file `snakecanvas.js`
 * Moved error banner JavaScript to separate file `flasherror.js`
+
+# Weeks 10-11, Oct. 26 - Nov. 6
+
+* Tweaked signin dropdown and database to use xp_level instead of grade
+* Disabled arrow keys on playsnake page
+* Added back buttons
+* Removed button to conclusion

@@ -56,9 +56,9 @@ def evaluation():
               .first())
     return render_template("evaluation.html", params=PARAMS, ai=ai)
 
-@views.route("/conclusion")
+@views.route("/reflection")
 # @login_required
-# @flow.step("conclusion")
-def conclusion():
-    return render_template("conclusion.html")
+# @flow.step("reflection")
+def reflection():
+    return render_template("reflection.html")
 
