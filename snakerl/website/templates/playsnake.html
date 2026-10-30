@@ -21,9 +21,11 @@
     <div class="mx-auto mt-1" style="width: 200px;">
         <button id="resetBtn" style="width: 200px;" class="btn button">play</button>
     </div>
-    <br>
-    <div class="mx-auto mt-1" style="width: 200px;">
-        <a href="/untrained" style="width: 200px;" class="btn button">continue</a>
+    <div class="col mt-5">
+        <div class="text-center">
+            <a href="/signin" style="width: 200px;" class="btn button mx-3">back</a>
+            <a href="/untrained" style="width: 200px;" class="btn button">continue</a>
+        </div>
     </div>
     <script src="{{url_for('static', filename='snakecanvas.js')}}"></script>
     <script src="{{url_for('static', filename='playsnake.js')}}"></script>

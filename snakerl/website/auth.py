@@ -11,9 +11,9 @@ def signin():
     if request.method == 'POST':
         first_name = request.form.get('first-name')
         last_name = request.form.get('last-name')
-        grade_level = request.form.get('grade-level')
-        if valid_input(first_name, grade_level, last_name):
-            new_user = User(first_name=first_name, last_name=last_name, grade_level=grade_level)
+        xp_level = request.form.get('xp-level')
+        if valid_input(first_name, xp_level, last_name):
+            new_user = User(first_name=first_name, last_name=last_name, xp_level=xp_level)
             db.session.add(new_user)
             db.session.commit()
             login_user(new_user, remember=False)
@@ -27,15 +27,15 @@ def logout():
     flow.clear()
     return redirect(url_for("auth.signin"))
 
-def valid_input(first_name, grade_level, last_name):
+def valid_input(first_name, xp_level, last_name):
     if len(first_name) < 2:
         flash("First name must be greater than 1 character.", category="error")
         return False
-    if len(grade_level) == 0:
-        flash("Grade level can't be empty.", category="error")
+    if len(xp_level) == 0:
+        flash("Experience can't be empty.", category="error")
         return False
-    if grade_level == "0":
-        flash("Grade level can't be empty.", category="error")
+    if xp_level == "-1":
+        flash("Experience can't be empty.", category="error")
         return False
     if len(last_name) < 1:
         flash("Last initial can't be empty.", category="error")

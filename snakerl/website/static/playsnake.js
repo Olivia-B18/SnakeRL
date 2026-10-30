@@ -53,6 +53,11 @@ document.fonts.load(messageFont)
 // Move the snake with arrow keys
 window.addEventListener("keydown", function(event) {
 
+    // Stop arrow keys from scrolling the window
+    if ([37, 38, 39, 40].includes(event.keyCode)) {
+        event.preventDefault();
+    }
+
     // Check if the direction already changed
     if (directionChanged) return;
 

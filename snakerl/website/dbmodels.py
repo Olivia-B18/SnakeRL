@@ -17,5 +17,5 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(64))
     last_name = db.Column(db.String(64))
-    grade_level = db.Column(db.Integer)
+    xp_level = db.Column(db.String(64))
     ais = db.relationship("AI", backref="user")
