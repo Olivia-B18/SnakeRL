@@ -89,3 +89,5 @@ shared code in new file `snakecanvas.js`
 * Disabled arrow keys on playsnake page
 * Added back buttons
 * Removed button to conclusion
+* Move trainyoursnakeai to port 5002 so that snakerl can simultaneously
+run on port 5001
