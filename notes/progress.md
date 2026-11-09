@@ -91,3 +91,8 @@ shared code in new file `snakecanvas.js`
 * Removed button to conclusion
 * Move trainyoursnakeai to port 5002 so that snakerl can simultaneously
 run on port 5001
+* Present at NURVa.
+
+# Weeks 12-16, Nov. 9 - Dec. 4
+
+* TBD

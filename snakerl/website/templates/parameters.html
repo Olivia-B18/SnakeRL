@@ -15,6 +15,18 @@
     <div class="row mt-5 justify-content-center">
         <div class="col-md-10 px-4">
 
+            <!-- Untrained Agent -->
+            <h3 class="text-center accent-text">Untrained Agent Discussion</h3>
+            <p>
+                As you saw on the previous page, <b>untrained agents</b> are very
+                bad at playing Snake. They may get lucky and eat the apple once or
+                twice, but generally, they do the wrong thing (i.e. spin in a circle,
+                crash into the wall, crash into themselves, etc.) because they have
+                not yet learned how to play the game. Let's learn how about how we can
+                improve this performance and teach the agent how to play Snake.
+            </p>
+            <hr class="section-divider">
+
             <!-- Markov Decision Processes -->
             <h3 class="text-center accent-text">Markov Decision Processes</h3>
             <p>
@@ -41,20 +53,36 @@
                 certain actions while discouraging others. The reward
                 is determined by the progression from the current state \( s \)
                 by taking an action \( a \), and entering the next state \( s' \),
-                often written as a reward function:
+                often written as a <b>reward function</b>:
             </p>
             \[R(s, a, s') \]
             {% endraw %}
 
             <!-- The Bellman Equation -->
             <hr class="section-divider">
-            <h3 class="text-center accent-text">The Bellman Equation</h3>
+            <h3 class="text-center accent-text">What are Q-values?</h3>
             <p>
                 When the agent learns, it has no idea what actions lead
-                to what rewards, so it approximates the values for the actual
-                rewards. These approximations are called <b>Q-values.</b>
-                The <b>Bellman Equation</b> gives two key formulas to update a Q-value:
+                to what rewards. As it takes actions, it approximates how good actions
+                are by tracking <b>Q-values.</b> In a sentence, a Q-value is saying,
+                "if the agent is in state \( s \) and takes action \( a \), and then
+                acts optimally, always exploiting its best known actions thereafter,
+                what is its predicted reward in the end?"
+            </p>
+            <p>
+                Q-values are like <b>navigating a maze.</b> Mazes have different paths
+                you can take. Some cross, some lead to crossroads, others to dead ends,
+                and there are many paths that lead to the end of the maze. A Q-value
+                denotes the value for taking an action in a given state and acting optimally
+                thereafter. For example, the value for a path through the maze may be low
+                because taking a circuitous route that detours and skirts a dead end is less
+                effective than taking a more direct route.
+            </p>
 
+            <hr class="section-divider">
+            <h3 class="text-center accent-text">The Bellman Equation</h3>
+            <p>
+                The <b>Bellman Equation</b> gives two key formulas to update a Q-value:    
             </p>
             {% raw %}
             <p>
@@ -91,11 +119,6 @@
                 \underbrace{\left( \text{sample} - Q(s, a) \right)}_{\text{how wrong the old guess was}}
                 ]
             \]
-            <p>
-                In a sentence, a Q-value is saying, "if the agent is in state \( s \)
-                and takes action \( a \), and then acts optimally, always exploiting its
-                best known actions thereafter, what is my predicted reward in the end?"
-            </p>
             {% endraw %}
 
             <!-- Parameters -->
@@ -105,6 +128,7 @@
                 So how do you use this formula to train the agent?
                 There are two things to focus on tweaking: the settings
                 for the agent itself and the settings for its environment.
+                These settings are called <b>hyperparameters.</b>
             </p>
         </div>
     </div>

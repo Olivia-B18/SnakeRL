@@ -4,7 +4,73 @@
 {% endblock %}
 {% block container %}
     <h1 class="text-center title">Reflection</h1>
-    <div class="mx-auto mt-5" style="width: 400px;">
-        Word
+    <div class="mx-auto mt-5" style="width: 700px;">
+        
+        <!-- Body Text -->
+        <p>
+            The <b>goal of this project</b> is to teach its audience the foundations
+            of RL in an easy to understand way. We hope you enjoyed the journey.
+        </p>
+        <p>
+            If you'd like to play again, select any of the buttons below to return
+            to a previous page.
+
+            When you go through the training and evaluation process, consider?
+        </p>
+        <ul>
+            <li>
+                What do you think core of reinforcement learning is?
+            </li>
+            <li>
+                Theoretically, can an agent designed to play Snake be taught
+                to play a different game like Blackjack?
+            </li>
+            <li>
+                <b>How did your agent perform?</b> If it didn't do well,
+                what settings might help it earn more points?
+            </li>
+            <li>
+                <b>Try training multiple times using the same settings.</b>
+                Sometimes, agents are unlucky with some runs but are lucky with
+                others because of the randomization.
+            </li>
+            <li>
+                <b>What do you think the snake knows</b> or should know about its
+                environment?
+            </li>
+            <li>
+                What do different values for the <b>learning rate, discount factor,
+                exploration rate, and reward function</b> do?
+            </li>
+
+        </ul>
+
+        <!-- Buttons -->
+        <div class="col mt-5">
+            <div class="text-center">
+                <a href="/parameters" style="width: 250px;" class="btn button mx-3">back to how to train</a>
+            </div>
+            <div class="text-center mt-5">
+                <a href="/training" style="width: 250px;" class="btn button mx-3">back to training</a>
+            </div>
+            <div class="text-center mt-5">
+                <a href="/evaluation" style="width: 250px;" class="btn button mx-3">back to evaluation</a>
+            </div>
+        </div>
+
+        <hr class="section-divider">
+
+        <!-- Credits -->
+        <i>
+        <p>Credits:</p>
+        <p>
+            This project was developed by Olivia Buchanan under the guidance
+            of Professor Evan Coleman and with the assistance of Claude Code.
+        </p>
+        <p>
+            It was inspired by research on a tool called TrainYourSnakeAI developed
+            by Hinojosa et al. (https://dl.acm.org/doi/abs/10.1145/3641554.3701907).
+        </p>
+        </i> 
     </div>
 {% endblock %}
