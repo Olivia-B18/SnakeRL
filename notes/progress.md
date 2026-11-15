@@ -89,10 +89,10 @@ shared code in new file `snakecanvas.js`
 * Disabled arrow keys on playsnake page
 * Added back buttons
 * Removed button to conclusion
-* Move trainyoursnakeai to port 5002 so that snakerl can simultaneously
+* Move trainyourai to port 5002 so that snakerl can simultaneously
 run on port 5001
 * Present at NURVa.
 
 # Weeks 12-16, Nov. 9 - Dec. 4
 
-* TBD
+* Renamed repo to use "TrainYourAI" instead of "TrainYourSnakeAI"
