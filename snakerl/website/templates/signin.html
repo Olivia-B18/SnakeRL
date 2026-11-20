@@ -11,7 +11,8 @@
                        class="form-control"
                        name="first-name"
                        id="first-name"
-                       placeholder="enter first name">
+                       placeholder="enter first name"
+                       value="{{ form.get('first-name', '') }}">
             </div>
             <br>
             <div class="form-group">
@@ -19,19 +20,25 @@
                        class="form-control"
                        name="last-name"
                        id="last-name"
-                       placeholder="enter last initial">
+                       placeholder="enter last initial"
+                       value="{{ form.get('last-name', '') }}">
             </div>
             <br>
             <div class="form-group">
+                {% set levels = [
+                    ("-1","experience level"),
+                    ("Zero","Zero experience with RL"),
+                    ("Some","Some experience with RL"),
+                    ("Comfortable","Comfortable with RL"),
+                    ("Experienced","Experienced with RL"),
+                    ] %}
                 <select style="width: 400px;
                                height: 38px"
                         name="xp-level"
                         id="xp-level">
-                    <option value="-1">experience level</option>
-                    <option value="Zero">Zero experience with RL</option>
-                    <option value="Some">Some experience with RL</option>
-                    <option value="Comfortable">Comfortable with RL</option>
-                    <option value="Experienced">Experienced with RL</option>
+                    {% for val, label in levels %}
+                        <option value="{{ val }}" {% if form.get('xp-level') == val %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
                 </select>
             </div>
             <br>

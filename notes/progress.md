@@ -96,3 +96,7 @@ run on port 5001
 # Weeks 12-16, Nov. 9 - Dec. 4
 
 * Renamed repo to use "TrainYourAI" instead of "TrainYourSnakeAI"
+* When error is thrown, fields for signin repopulate with previous values.
+* Revamped layout of intro.
+* Added `howtosnake.html`.
+* Added instructions to canvas in `playsnake.html`.

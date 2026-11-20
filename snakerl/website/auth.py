@@ -9,9 +9,9 @@ auth = Blueprint('auth', __name__)
 @auth.route("signin", methods=['GET', 'POST'])
 def signin():
     if request.method == 'POST':
-        first_name = request.form.get('first-name')
-        last_name = request.form.get('last-name')
-        xp_level = request.form.get('xp-level')
+        first_name = request.form.get('first-name', '').strip()
+        last_name = request.form.get('last-name', '').strip()
+        xp_level = request.form.get('xp-level', '')
         if valid_input(first_name, xp_level, last_name):
             new_user = User(first_name=first_name, last_name=last_name, xp_level=xp_level)
             db.session.add(new_user)
@@ -19,7 +19,7 @@ def signin():
             login_user(new_user, remember=False)
             flow.reset()
             return redirect(url_for("views.intro"))
-    return render_template("signin.html")
+    return render_template("signin.html", form=request.form)
 
 @auth.route("logout")
 def logout():
@@ -31,13 +31,13 @@ def valid_input(first_name, xp_level, last_name):
     if len(first_name) < 2:
         flash("First name must be greater than 1 character.", category="error")
         return False
+    if len(last_name) != 1:
+        flash("Last initial must be exactly 1 character long.", category="error")
+        return False
     if len(xp_level) == 0:
         flash("Experience can't be empty.", category="error")
         return False
     if xp_level == "-1":
         flash("Experience can't be empty.", category="error")
-        return False
-    if len(last_name) < 1:
-        flash("Last initial can't be empty.", category="error")
         return False
     return True

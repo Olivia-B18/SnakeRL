@@ -25,6 +25,9 @@ const messageFont = `35px ${getComputedStyle(document.body).fontFamily}`;
 let foodX;
 let foodY;
 
+// Line height for messages on canvas. Font is 35px
+const messageLineHeight = 60;
+
 /* FUNCTIONS TO CLEAR AND DRAW ON CANVAS */
 
 function clearBoard() {
@@ -51,4 +54,12 @@ function drawMessage(text, posX, posY) {
     ctx.fillStyle = "black";
     ctx.textAlign = "center";
     ctx.fillText(text, posX, posY);
+}
+
+// Draw several lines with even spacing, centered vertically around centerY
+function drawMessages(lines, centerY = gameHeight / 2) {
+    const startY = centerY - (lines.length - 1) * messageLineHeight / 2;
+    lines.forEach((line, i) => {
+        drawMessage(line, gameWidth / 2, startY + i * messageLineHeight);
+    });
 }

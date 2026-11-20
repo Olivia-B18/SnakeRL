@@ -20,6 +20,12 @@ def home():
 def intro():
     return render_template("intro.html")
 
+@views.route("/howtosnake")
+# @login_required
+# @flow.step("howtosnake")
+def howtosnake():
+    return render_template("howtosnake.html")
+
 @views.route("/playsnake")
 # @login_required
 # @flow.step("playsnake")

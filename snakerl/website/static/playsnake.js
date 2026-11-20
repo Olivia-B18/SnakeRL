@@ -46,8 +46,12 @@ let games = 0;
 document.fonts.load(messageFont)
     .catch(() => { })
     .then(() => {
-        drawMessage("press play", gameWidth / 2, gameHeight / 2);
-        drawMessage("arrow keys to play", gameWidth / 2, gameHeight / 3);
+        drawMessages([
+        "Arrow keys to move.",
+        "Watch score change below.",
+        "Press play below.",
+        "Press continue when done.",
+        ])
     });
 
 // Move the snake with arrow keys
