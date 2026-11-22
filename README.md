@@ -3,31 +3,32 @@
 ## TODO:
 1. Mandate users must be signed in.
 2. Mandate pages must be visited in a certain flow.
-
-<!-- ABOUT -->
+3. Add description to SnakeRL section of `README.md`
 
 ## About
 
-The field of reinforcement learning (RL) is quickly growing and shows
-much promise; however, many research papers exploring the topic
-are too jargon-heavy for newcomers to understand RL or what it
-is about.
+**Motivation for SnakeRL.** The field of reinforcement learning (RL)
+is quickly growing and shows much promise; however, many research papers
+exploring the topic are too jargon-heavy for newcomers to understand RL
+or what it is about.
 
-The goal of this project, SnakeRL, is to make RL more accessible to newcomers
-by building on the tool TrainYourAI developed by Hinojosa et al.,
+**Goal of SnakeRL.** The goal of this project is to make RL more accessible
+to newcomers by building on the tool TrainYourAI developed by Hinojosa et al.,
 which was presented at the ACM Conference SIGCSE TS 2025. Their
 project introduced RL to middle school students using the game Snake,
 and my project seeks to reveal RL more in depth by exposing parameters involved
 in the learning process and is geared towards undergraduate students.
 
-This project was completed in Fall 2026.
-
-<!-- INSTALLATION -->
+**Development Timeline.** The project began in Fall 2026. It extended the
+TrainYourAI tool and concluded with a heuristic evaluation of SnakeRL, which can
+be found in `notes/heuristic_eval.md`. The project will resume in Spring 2026
+with student participants testing both tools.
 
 ## Installation
 
 ```
-# Create a virtual environment with Python 3.12 (I used conda)
+# Create a virtual environment with Python 3.12.
+# I used conda, but other options like .venv's should work.
 conda create -n <name_of_virtual_environment> python=3.12
 
 # Activate the virtual environment (I used conda)
@@ -37,16 +38,18 @@ conda activate <name_of_virtual_environment>
 pip install -r dependencies.txt
 ```
 
-<!-- TRAINYOURAI -->
-
 ## TrainYourAI
 
 ### Sources
 
-The paper for TrainYourAI can be found at: https://doi.org/10.1145/3641554.3701907
+| Resource              | Link                                  |
+| --------------------- | ------------------------------------- |
+| TrainYourAI paper     | [dl.acm.org][paper]                   |
+| TrainYourAI GitHub    | [cesarihinojosa/train-your-ai][repo]  |
 
-The GitHub repo for TrainYourAI can be found at:
-https://github.com/cesarihinojosa/train-your-ai
+<!-- nickname/URL mappings -->
+[paper]: https://dl.acm.org/doi/abs/10.1145/3641554.3701907
+[repo]: https://github.com/cesarihinojosa/train-your-ai
 
 ### Fixes by Me
 
@@ -69,13 +72,7 @@ python main.py
 # MANUAL: open the port that loads in a browser <http://localhost:5001>
 ```
 
-<!-- SNAKERL -->
-
 ## SnakeRL
-
-### Description
-
-TBD
 
 ### Running SnakeRL
 
@@ -87,16 +84,13 @@ python main.py
 # MANUAL: open the port that loads in a browser <http://localhost:5001>
 ```
 
-<!-- DIRECTORIES -->
-
 ## Tour of Directories
 
+* `notes`: my personal notes on my progress, terminal commands, and my heuristic
+evaluation for SnakeRL.
+* `snakerl`: my new Snake web app developed to teach RL to undergraduate students.
 * `trainyourai`: the original Snake web app tool developed by Hinojosa et
 al. to teach RL to middle schoolers.
-* `notes`: my personal notes on research, my progress, and terminal commands.
-* `snakerl`: my new Snake web app developed to teach RL to undergraduate students.
-
-<!-- ACKNOWLEDGEMENTS -->
 
 ## Acknowledgements and Credits
 

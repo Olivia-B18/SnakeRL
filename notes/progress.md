@@ -100,3 +100,4 @@ run on port 5001
 * Revamped layout of intro.
 * Added `howtosnake.html`.
 * Added instructions to canvas in `playsnake.html`.
+* Created `notes/heuristic_eval.md` and the heuristic evaluation for SnakeRL.

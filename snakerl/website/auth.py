@@ -28,16 +28,24 @@ def logout():
     return redirect(url_for("auth.signin"))
 
 def valid_input(first_name, xp_level, last_name):
+
+    # Track list of error messages
+    error_msg = []
+
+    # Check for any errors
     if len(first_name) < 2:
-        flash("First name must be greater than 1 character.", category="error")
-        return False
+        error_msg.append("First name must be greater than 1 character.")
     if len(last_name) != 1:
-        flash("Last initial must be exactly 1 character long.", category="error")
-        return False
+        error_msg.append("Last initial must be exactly 1 character long.")
     if len(xp_level) == 0:
-        flash("Experience can't be empty.", category="error")
-        return False
+        error_msg.append("Experience can't be empty.")
     if xp_level == "-1":
-        flash("Experience can't be empty.", category="error")
+        error_msg.append("Experience can't be empty.")
+
+    # Flash error messages, if any
+    if error_msg:
+        for msg in error_msg:
+            flash(msg, category="error")
         return False
+    
     return True
