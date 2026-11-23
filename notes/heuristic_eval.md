@@ -10,21 +10,25 @@ so a heuristic evaluation was conducted.
 heuristic evaluations, but many projects take ideas from Jakob Nielsen's
 10 Usability Heuristics for User Interface Design. His heuristics are broad
 but still considered the standard, so this project will follow suit. Those
-10 Heuristics inspired a checklist of requirements that was then used to
+10 Heuristics inspired a spreadsheet of issues that were then used to
 evaluate the  usability of SnakeRL.
 
 <!-- Table of Heuristic Evaluation Resources -->
-| Resource                  | Link                              |
-| ------------------------- | --------------------------------- |
-| SnakeRL Evaluation        | [docs.google.com][snakerl_eval]   |
-| Nielsen's Heuristics      | [nngroup.com][nielsen]            |
-| Andy Budd's Heuristics    | [andybudd.com][andybudd]          |
-| Evaluation Template       | [myuxacademy.com][ux_academy]     |
+| Resource                      | Link                              |
+| ----------------------------- | --------------------------------- |
+| SnakeRL Evaluation            | [docs.google.com][snakerl_eval]   |
+| Nielsen's Heuristics          | [nngroup.com][nielsen]            |
+| Andy Budd's Heuristics        | [andybudd.com][andybudd]          |
+| Sample Andy Budd Evaluation   | [classroom.itats.ac.id][oneview]  |
+| Sample Nielsen Evaluation     | [scholar.umw.edu][gwengifts]      |
+| Evaluation Template           | [myuxacademy.com][ux_academy]     |
 
 <!-- nickname/URL mappings -->
 [snakerl_eval]: https://docs.google.com/spreadsheets/d/1FxTUVJU_6q9ZqAWduvPMTkPCkN-7ChXdkKM33AlabE0/
 [nielsen]: https://www.nngroup.com/articles/ten-usability-heuristics/
+[gwengifts]: https://scholar.umw.edu/student_research/701/
 [andybudd]: https://andybudd.com/archives/2007/01/heuristics_for_modern_web_application_de
+[oneview]: https://classroom.itats.ac.id/storage/materi/412907240154/12-2024/1735521585_Heuristic_evaluation%20Andy%20Budd.pdf
 [ux_academy]: https://myuxacademy.com/blog/heuristic-evaluation-template/
 
 ## Personal Notes on Nielsen's 10 Heuristics
