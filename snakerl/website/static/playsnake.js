@@ -47,7 +47,7 @@ document.fonts.load(messageFont)
     .catch(() => { })
     .then(() => {
         drawMessages([
-        "Arrow keys to move.",
+        "Arrow keys to change direction.",
         "Watch score change below.",
         "Press play below.",
         "Press continue when done.",

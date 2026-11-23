@@ -20,6 +20,8 @@
              {% if steps_seen is not none %}data-seen="{{ steps_seen }}"{% endif %}>
             <section class="lesson-step" id="untrained-agent">
                 <h3 class="text-center accent-text">Untrained Agent Discussion</h3>
+                <br>
+
                 <p>
                     As you saw on the previous page, <b>untrained agents</b> are very
                     bad at playing Snake. They may get lucky and eat the apple once or
@@ -37,6 +39,8 @@
 
             <section class="lesson-step" id="mdp">
                 <h3 class="text-center accent-text">Markov Decision Processes</h3>
+                <br>
+
                 <p>
                     RL agents learn by taking actions, or steps, in small worlds
                     called <b>environments.</b> In our case, the agent's environment
@@ -69,6 +73,8 @@
 
             <section class="lesson-step" id="q-values">
                 <h3 class="text-center accent-text">What are Q-values?</h3>
+                <br>
+
                 <p>
                     When the agent learns, it has no idea what actions lead
                     to what rewards. As it takes actions, it approximates how good actions
@@ -90,6 +96,8 @@
 
             <section class="lesson-step" id="bellman">
                 <h3 class="text-center accent-text">The Bellman Equation</h3>
+                <br>
+
                 <p>
                     The <b>Bellman Equation</b> gives two key formulas to update a Q-value:    
                 </p>
@@ -133,6 +141,8 @@
 
             <section class="lesson-step" id="parameters">
                 <h3 class="text-center accent-text">Hyperparameters</h3>
+                <br>
+
                 <p>
                     So how do you use the Bellman Equation to train the agent?
                     There are two things to focus on tweaking: the settings
@@ -143,6 +153,8 @@
 
             <section class="lesson-step" id="agent_parameters">
                 <h3 class="accent-text text-center">Agent Hyperparameters</h3>
+                <br>
+
                 <p>
                     1. The <b>learning rate</b> \( \alpha \) (alpha) affects how much
                     the agent learns from new information at each step.
@@ -180,6 +192,8 @@
 
             <section class="lesson-step" id="env_parameters">
                 <h3 class="accent-text text-center">Environment Hyperparameters</h3>
+                <br>
+                
                 <p>
                     A core concept of RL is setting up a good environment
                     for the agent to learn in. This means defining a

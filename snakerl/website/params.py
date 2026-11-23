@@ -48,7 +48,7 @@ PARAMS = {
         "max": 10,
         "step": 10,
         "default": 0,
-        "ticks": [-10, 0, 10],
+        "ticks": [-10, -5, 0, 5, 10],
     },
     "alive": {
         "label": "Alive",
@@ -58,7 +58,7 @@ PARAMS = {
         "max": 10,
         "step": 10,
         "default": 0,
-        "ticks": [-10, 0, 10],
+        "ticks": [-10, -5, 0, 5, 10],
     },
     "die": {
         "label": "Die",
@@ -68,6 +68,6 @@ PARAMS = {
         "max": 10,
         "step": 10,
         "default": 0,
-        "ticks": [-10, 0, 10],
+        "ticks": [-10, -5, 0, 5, 10],
     },
 }

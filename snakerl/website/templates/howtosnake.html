@@ -24,6 +24,11 @@
         <br>
 
         <p>
+            <b>Moving the snake.</b> Use the arrow keys to change direction.
+            The snake will automatically proceed in whatever direction it is
+            facing.
+        </p>
+        <p>
             <b>Grow the snake.</b> Make your snake (reperesented by a
             series of green squares) longer by eating apples (represented by
             a red square).
@@ -48,13 +53,14 @@
         <p>
             <b>Game speed.</b> When you play Snake, the game will speed up
             each round to make things more challenging. When the RL agent
-            learns how to play, its games won't be sped up.
+            learns how to play, its games are not affected by speed; however,
+            some games will be fast-forwarded for time's sake.
         </p>
 
         <p>
             <b>Timing Out.</b> When you play Snake, so long as you are still
             alive, you can play. When the RL agent plays Snake, its games are
-            forced to end after 60 frames of doing nothing. This forces the
+            forced to end after 60 moves of doing nothing. This forces the
             agent to learn sooner than later.
         </p>
 

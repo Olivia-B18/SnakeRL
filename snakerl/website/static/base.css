@@ -143,6 +143,14 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     font-size: 60px;
 }
 
+.spaced-list li {
+    margin-bottom: 0.75rem;
+}
+
+.spaced-list li:last-child {
+    margin-bottom: 0; /* no extra gap after the last item */
+}
+
 .button {
     background-color: var(--accent);
     border-color: var(--accent);
@@ -276,8 +284,12 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
-.step-button:disabled {
-    visibility: hidden; /* keep the counter centered */
+/* Grayed out on the first step (previous) and the last step (next) */
+.step-button:disabled,
+.step-button:disabled:hover {
+    color: rgba(255, 255, 255, 0.3);
+    text-decoration: none;
+    cursor: not-allowed;
 }
 
 .step-counter {
