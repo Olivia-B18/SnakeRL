@@ -178,9 +178,17 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     font-size: var(--button-text-size);
 }
 
+/* No ring after a mouse click (it would linger, since the button stays
+   focused while training or evaluation runs) */
 .button:focus {
-      box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
-  }
+    outline: none;
+    box-shadow: none;
+}
+
+/* Keyboard users still get a ring so they can see where they are */
+.button:focus-visible {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
+}
 
 .hide {
     display: none;
@@ -256,6 +264,13 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     text-decoration: underline;
 }
 
+/* No outline after a mouse click (Bootstrap adds one to every focused
+   button, and it lingers since the button stays focused on the next step) */
+.step-button:focus {
+    outline: none;
+}
+
+/* Keyboard users still get a ring so they can see where they are */
 .step-button:focus-visible {
     outline: none;
     box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
