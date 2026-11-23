@@ -11,6 +11,13 @@ const hideTrainingSidebarDiv = document.getElementById("hideTrainingSidebar")
 const scoreText = document.querySelector("#score");
 const gamesText = document.querySelector("#games");
 const highscoreText = document.querySelector("#highscore");
+const chosenAlphaText = document.querySelector("#chosenAlpha");
+const chosenGammaText = document.querySelector("#chosenGamma");
+const chosenEpsilonText = document.querySelector("#chosenEpsilon");
+const chosenEatText = document.querySelector("#chosenEat");
+const chosenAliveText = document.querySelector("#chosenAlive");
+const chosenDieText = document.querySelector("#chosenDie");
+
 
 // Slider elements
 const trainingInputElements = document.getElementById("training-sliders").querySelectorAll("input[type=range]");
@@ -23,6 +30,12 @@ let score = 0;
 let highScore = 0;
 let games = 0;
 let numTrainings = 0;
+let chosenAlpha = -1;
+let chosenGamma = -1;
+let chosenEpsilon = -1;
+let chosenEat = -1;
+let chosenAlive = -1;
+let chosenDie = -1;
 
 // The snake
 snake = []
@@ -87,6 +100,14 @@ document.getElementById("trainBtn").addEventListener("click", function () {
             Array.from(trainingInputElements, (slider) => [slider.id, slider.value])
         );
 
+        // Log training settings to display
+        chosenAlpha = trainingInputValues.alpha;
+        chosenGamma = trainingInputValues.gamma;
+        chosenEpsilon = trainingInputValues.epsilon;
+        chosenEat = trainingInputValues.eat;
+        chosenAlive = trainingInputValues.alive;
+        chosenDie = trainingInputValues.die;
+
         socket.emit("train", trainingInputValues);
         hideTrainingSidebarDiv.style.display = "block";
     }
@@ -150,4 +171,10 @@ function drawTrainingStats() {
     scoreText.textContent = score;
     highscoreText.textContent = highScore;
     gamesText.textContent = games + "/100";
+    chosenAlphaText.textContent = chosenAlpha;
+    chosenGammaText.textContent = chosenGamma;
+    chosenEpsilonText.textContent = chosenEpsilon;
+    chosenEatText.textContent = chosenEat;
+    chosenAliveText.textContent = chosenAlive;
+    chosenDieText.textContent = chosenDie;
 }
