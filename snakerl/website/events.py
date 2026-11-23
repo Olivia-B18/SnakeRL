@@ -117,8 +117,8 @@ def handle_train(training_inputs):
 
         # Report training results
         emit("training_done", {"completed": completed,
-                            "num_games_completed": num_games_completed,
-                            })
+                               "num_games_completed": num_games_completed,
+                               })
 
 @socketio.on("evaluate")
 # @ authenticated_only
@@ -225,8 +225,8 @@ def handle_evaluate_untrained(evaluation_inputs):
             emit("evaluation_done", {"completed": False})
         else:
             emit("evaluation_done", {"completed": True,
-                                    "scores": scores,
-                                    })
+                                     "scores": scores,
+                                     })
 
 @socketio.on("stop_episode")
 # @authenticated_only

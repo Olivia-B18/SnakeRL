@@ -9,193 +9,223 @@
     Parameters
 {% endblock %}
 {% block container %}
-    <h1 class="text-center title">How To Train an RL Agent</h1>
+    <div class="mx-auto body-text">
 
-    <!-- Intro text -->
-    <div class="row mt-5 justify-content-center">
-        <div class="col-md-10 px-4">
+        <!-- Title -->
+        <h1 class="text-center title">How To Train an RL Agent</h1>
+        <br>
 
-            <!-- Untrained Agent -->
-            <h3 class="text-center accent-text">Untrained Agent Discussion</h3>
-            <p>
-                As you saw on the previous page, <b>untrained agents</b> are very
-                bad at playing Snake. They may get lucky and eat the apple once or
-                twice, but generally, they do the wrong thing (i.e. spin in a circle,
-                crash into the wall, crash into themselves, etc.) because they have
-                not yet learned how to play the game. Let's learn how about how we can
-                improve this performance and teach the agent how to play Snake.
-            </p>
-            <hr class="section-divider">
+        <!-- Lesson steps: lessonsteps.js shows one <section> at a time -->
+        <div class="lesson-steps" id="lessonSteps">
+            <section class="lesson-step" id="untrained-agent">
+                <h3 class="text-center accent-text">Untrained Agent Discussion</h3>
+                <p>
+                    As you saw on the previous page, <b>untrained agents</b> are very
+                    bad at playing Snake. They may get lucky and eat the apple once or
+                    twice, but generally, they do the wrong thing (i.e. spin in a circle,
+                    crash into the wall, crash into themselves, etc.) because they have
+                    not yet learned how to play the game. Let's learn how about how we can
+                    improve this performance and teach the agent how to play Snake.
+                </p>
+                <p>
+                    Use the "next" and "previous" buttons below to read about how to train
+                    an RL agent to play Snake. The "back" button will take you back to 
+                    the last page, as usual.
+                </p>
+            </section>
 
-            <!-- Markov Decision Processes -->
-            <h3 class="text-center accent-text">Markov Decision Processes</h3>
-            <p>
-                RL agents learn by taking actions, or steps, in small worlds
-                called <b>environments.</b> In our case, the agent's environment
-                is the game Snake.
+            <section class="lesson-step" id="mdp">
+                <h3 class="text-center accent-text">Markov Decision Processes</h3>
+                <p>
+                    RL agents learn by taking actions, or steps, in small worlds
+                    called <b>environments.</b> In our case, the agent's environment
+                    is the game Snake.
 
-                At a high level, training is typically done using an environment
-                called a <b>Markov Decision Process (MDP)</b>. This just means that
-                the agent learns through a series of states, actions, and 
-                rewards.
-            </p>
-            {% raw %}
-            <p>
-                A <b>state</b> is where your RL agent will be in
-                the environment and what it knows, such as being on a
-                normal tile, being on the same tile as the apple, or 
-                crashing into the wall.
+                    At a high level, training is typically done using an environment
+                    called a <b>Markov Decision Process (MDP)</b>. This just means that
+                    the agent learns through a series of states, actions, and 
+                    rewards.
+                </p>
+                {% raw %}
+                <p>
+                    A <b>state</b> is where your RL agent will be in
+                    the environment and what it knows, such as being on a
+                    normal tile, being on the same tile as the apple, or 
+                    crashing into the wall.
 
-                The agent will take <b>actions,</b> such as moving
-                the snake up, down, left, or right.
+                    The agent will take <b>actions,</b> such as moving
+                    the snake up, down, left, or right.
 
-                <b>Rewards</b> encourage the agent to continue doing
-                certain actions while discouraging others. The reward
-                is determined by the progression from the current state \( s \)
-                by taking an action \( a \), and entering the next state \( s' \),
-                often written as a <b>reward function</b>:
-            </p>
-            \[R(s, a, s') \]
-            {% endraw %}
+                    <b>Rewards</b> encourage the agent to continue doing
+                    certain actions while discouraging others. The reward
+                    is determined by the progression from the current state \( s \)
+                    by taking an action \( a \), and entering the next state \( s' \),
+                    often written as a <b>reward function</b>:
+                </p>
+                \[R(s, a, s') \]
+                {% endraw %}
+            </section>
 
-            <!-- The Bellman Equation -->
-            <hr class="section-divider">
-            <h3 class="text-center accent-text">What are Q-values?</h3>
-            <p>
-                When the agent learns, it has no idea what actions lead
-                to what rewards. As it takes actions, it approximates how good actions
-                are by tracking <b>Q-values.</b> In a sentence, a Q-value is saying,
-                "if the agent is in state \( s \) and takes action \( a \), and then
-                acts optimally, always exploiting its best known actions thereafter,
-                what is its predicted reward in the end?"
-            </p>
-            <p>
-                Q-values are like <b>navigating a maze.</b> Mazes have different paths
-                you can take. Some cross, some lead to crossroads, others to dead ends,
-                and there are many paths that lead to the end of the maze. A Q-value
-                denotes the value for taking an action in a given state and acting optimally
-                thereafter. For example, the value for a path through the maze may be low
-                because taking a circuitous route that detours and skirts a dead end is less
-                effective than taking a more direct route.
-            </p>
+            <section class="lesson-step" id="q-values">
+                <h3 class="text-center accent-text">What are Q-values?</h3>
+                <p>
+                    When the agent learns, it has no idea what actions lead
+                    to what rewards. As it takes actions, it approximates how good actions
+                    are by tracking <b>Q-values.</b> In a sentence, a Q-value is saying,
+                    "if the agent is in state \( s \) and takes action \( a \), and then
+                    acts optimally, always exploiting its best known actions thereafter,
+                    what is its predicted reward in the end?"
+                </p>
+                <p>
+                    Q-values are like <b>navigating a maze.</b> Mazes have different paths
+                    you can take. Some cross, some lead to crossroads, others to dead ends,
+                    and there are many paths that lead to the end of the maze. A Q-value
+                    denotes the value for taking an action in a given state and acting optimally
+                    thereafter. For example, the value for a path through the maze may be low
+                    because taking a circuitous route that detours and skirts a dead end is less
+                    effective than taking a more direct route.
+                </p>
+            </section>
 
-            <hr class="section-divider">
-            <h3 class="text-center accent-text">The Bellman Equation</h3>
-            <p>
-                The <b>Bellman Equation</b> gives two key formulas to update a Q-value:    
-            </p>
-            {% raw %}
-            <p>
-                <b>Formula 1: Calculate the sample.</b> After taking action
-                \( a \), the agent gets reward \( r \) and lands in state
-                \( s' \). It adds that reward to the best Q-value it can
-                get from the new state:
-            </p>
-            \[
-                \text{sample}
-                =
-                \underbrace{r}_{\text{reward now}}
-                +
-                [
-                \underbrace{\gamma}_{\text{discount factor}}
-                \times
-                \underbrace{\max_{a'} Q(s', a')}_{\text{best Q-value from s'}}
-                ]
-            \]
+            <section class="lesson-step" id="bellman">
+                <h3 class="text-center accent-text">The Bellman Equation</h3>
+                <p>
+                    The <b>Bellman Equation</b> gives two key formulas to update a Q-value:    
+                </p>
+                {% raw %}
+                <p>
+                    <b>Formula 1: Calculate the sample.</b> After taking action
+                    \( a \), the agent gets reward \( r \) and lands in state
+                    \( s' \). It adds that reward to the best Q-value it can
+                    get from the new state:
+                </p>
+                \[
+                    \text{sample}
+                    =
+                    \underbrace{r}_{\text{reward now}}
+                    +
+                    [
+                    \underbrace{\gamma}_{\text{discount factor}}
+                    \times
+                    \underbrace{\max_{a'} Q(s', a')}_{\text{best Q-value from s'}}
+                    ]
+                \]
 
-            <p>
-                <b>Formula 2: Update the Q-value.</b> The agent doesn't throw
-                away its old guess. It nudges its old Q-value a little
-                bit toward the sample:
-            </p>
-            \[
-                \underbrace{Q(s, a)}_{\text{new guess}}
-                \leftarrow
-                \underbrace{Q(s, a)}_{\text{old guess}}
-                +
-                [
-                \underbrace{\alpha}_{\text{learning rate}}
-                \times
-                \underbrace{\left( \text{sample} - Q(s, a) \right)}_{\text{how wrong the old guess was}}
-                ]
-            \]
-            {% endraw %}
+                <p>
+                    <b>Formula 2: Update the Q-value.</b> The agent doesn't throw
+                    away its old guess. It nudges its old Q-value a little
+                    bit toward the sample:
+                </p>
+                \[
+                    \underbrace{Q(s, a)}_{\text{new guess}}
+                    \leftarrow
+                    \underbrace{Q(s, a)}_{\text{old guess}}
+                    +
+                    [
+                    \underbrace{\alpha}_{\text{learning rate}}
+                    \times
+                    \underbrace{\left( \text{sample} - Q(s, a) \right)}_{\text{how wrong the old guess was}}
+                    ]
+                \]
+                {% endraw %}
+            </section>
 
-            <!-- Parameters -->
-            <hr class="section-divider">
-            <h3 class="text-center accent-text">Parameters of the Agent and the Environment</h3>
-            <p>
-                So how do you use this formula to train the agent?
-                There are two things to focus on tweaking: the settings
-                for the agent itself and the settings for its environment.
-                These settings are called <b>hyperparameters.</b>
-            </p>
+            <section class="lesson-step" id="parameters">
+                <h3 class="text-center accent-text">Hyperparameters</h3>
+                <p>
+                    So how do you use the Bellman Equation to train the agent?
+                    There are two things to focus on tweaking: the settings
+                    for the agent itself and the settings for its environment.
+                    These settings are called <b>hyperparameters.</b>
+                </p>
+            </section>
+
+            <section class="lesson-step" id="agent_parameters">
+                <h3 class="accent-text text-center">Agent Hyperparameters</h3>
+                <p>
+                    1. The <b>learning rate</b> \( \alpha \) affects how much
+                    the agent learns from new information at each step.
+                    It is usually a small value like 0.001 to ensure that the agent
+                    learns at a slow and steady pace. Bigger values like 0.1 cause
+                    the agent to change Q-values more drastically and potentially
+                    destabilize learning. 
+                </p>
+                <p>
+                    2. The <b>discount factor</b> \( \gamma \) controls how much
+                    the agent cares about future rewards over immediate rewards.
+                    It is usually a large value like 0.99. This means that if it
+                    takes 3 actions to earn a 10-point apple, then the final reward
+                    will be {% raw %} 10 * 0.99^(3-1) = 9.801 {% endraw %}.
+                    As you can see, the discount factor doesn't reduce the reward
+                    too much, but it does encourage the agent to find its goal
+                    sooner than later.
+                </p>
+                <p>
+                    3. The <b>exploration rate</b> \( \epsilon \) determines
+                    how much the agent prioritizes <b>exploration</b> over
+                    <b>exploitation.</b> It is usually set to an initial value
+                    like 0.80 and then decays over time. This means that for the
+                    first action, the agent has an 80% chance of choosing an
+                    action randomly (exploration) and a 20% chance of exploiting
+                    its best known <b>policy</b> (or strategy) by taking the 
+                    best action it knows to so far. This initial 0.80 may reduce
+                    to 0.79 for the second action, meaning that by eightieth action,
+                    the agent will have a 100% chance of choosing to exploit. Typically,
+                    the exploration rate is very high in the beginning of training to
+                    encourage trying out new actions, and then it decays over time so that
+                    the agent will prioritize earning rewards. 
+                </p>
+            </section>
+
+            <section class="lesson-step" id="env_parameters">
+                <h3 class="accent-text text-center">Environment Hyperparameters</h3>
+                <p>
+                    A core concept of RL is setting up a good environment
+                    for the agent to learn in. This means defining a
+                    <b>reward function</b> \( R \) to determine how the agent earns
+                    rewards. Consider whether the snake agent should earn positive,
+                    negative, or zero rewards for the following:
+                    <ul>
+                        <li>
+                            How many points does the agent earn when it eats
+                            an apple?
+                        </li>
+                        <li>
+                            How many points does the agent earn when it crashes
+                            into itself or the wall?
+                        </li>
+                        <li>
+                            How many points does the agent earn just for
+                            staying alive?
+                        </li>
+                    </ul>
+                </p>
+            </section>
         </div>
+
+        <!-- In-page step controls (hidden until lessonsteps.js runs) -->
+        <nav class="step-nav mt-4" id="stepNav" aria-label="Lesson sections" hidden>
+            <button type="button" class="step-button" id="prevStep">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> previous
+            </button>
+            <span class="step-counter" id="stepCounter" aria-live="polite"></span>
+            <button type="button" class="step-button" id="nextStep">
+                next <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </button>
+        </nav>
+
     </div>
 
-    <div class="row mt-5 justify-content-center">
-        <!-- Agent column -->
-        <div class="col-md-5 px-4">
-            <h3 class="accent-text text-center">The Agent</h3>
-            <p>
-                1. The <b>learning rate</b> \( \alpha \) affects how much
-                the agent learns from new information at each step.
-                It is usually a small value like 0.001, so you can see
-                that in the second formula, it affects how much we want
-                the agent to nudge its Q-values up or down. 
-            </p>
-            <p>
-                2. The <b>discount factor</b> \( \gamma \) controls how much
-                the agent cares about future rewards over immediate rewards.
-                It is usually around 0.99, so when it is compounded over
-                multiple steps, this greatly reduces the final reward. Essentially,
-                it encourages the agent to complete its task sooner than
-                later. 
-            </p>
-            <p>
-                3. The <b>exploration rate</b> \( \epsilon \) determines
-                how much the agent prioritizes <b>exploration</b> over
-                <b>exploitation.</b> According to some probability,
-                like 0.80, there is a chance that the agent will either
-                explore new actions randomly, or it will exploit its
-                best known <b>policy</b> by only taking the best actions it
-                knows so far. Typically, the exploration rate is very high
-                in the beginning of training to encourage trying out new
-                actions, and then it decays over time so that the agent will
-                prioritize earning rewards. 
-            </p>
-        </div>
-        <!-- Environment column -->
-        <div class="col-md-5 px-4 column-divider">
-            <h3 class="accent-text text-center">The Environment</h3>
-            <p>
-                A core concept of RL is setting up a good environment
-                for the agent to learn in. This means defining a
-                <b>reward function</b> \( R \) to determine how the agent earns
-                rewards. Consider whether the snake agent should earn positive,
-                negative, or zero rewards for the following:
-                <ul>
-                    <li>
-                        How many points does the agent earn when it eats
-                        an apple?
-                    </li>
-                    <li>
-                        How many points does the agent earn when it crashes
-                        into itself or the wall?
-                    </li>
-                    <li>
-                        How many points does the agent earn just for
-                        staying alive?
-                    </li>
-                </ul>
-            </p>
-        </div>
-    </div>
-
+    <!-- Buttons -->
     <div class="col mt-5">
         <div class="text-center">
-            <a href="/untrained" style="width: 200px;" class="btn button mx-3">back</a>
-            <a href="/training" style="width: 200px;" class="btn button mx-3">continue</a>
+            <a href="/untrained" style="width: 200px;" class="btn button-outline mx-3">
+                <i class="fa fa-arrow-left" aria-hidden="true"></i> back
+            </a>
+            <a href="/training" style="width: 200px;" class="btn button-outline mx-3" id="continueBtn">
+                continue <i class="fa fa-arrow-right" aria-hidden="true"></i>
+            </a>
         </div>
     </div>
+    <script src="{{ url_for('static', filename='lessonsteps.js') }}"></script>
 {% endblock %}

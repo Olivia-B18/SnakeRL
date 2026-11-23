@@ -18,77 +18,58 @@
             <!-- Evaluation Details -->
             <div class="col align-self-start" id="hideEvalSidebar" data-has-agent="{{ 'true' if ai else 'false' }}">
                 
-                <!-- Training Settings -->
-                {% if ai %}
-                <div style="width: 300px;" class="d-flex mt-3">
-                    <h5 class="text-left" style="text-decoration: underline;">Training Settings:</h5>
+                <!-- Game Counter -->
+                <div style="width: 300px;" class="d-flex">
+                    <h5 style="text-decoration: underline;">Games Completed</h5>
                 </div>
-                <div class="d-flex mt-1">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">{{ params.alpha.label }}:</h5>
-                    </div>
-                    <h5 id="evalAlpha">{{ ai.alpha }}</h5>
-                </div>
-                <div class="d-flex mt-1">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">{{ params.gamma.label }}:</h5>
-                    </div>
-                    <h5 id="evalGamma">{{ ai.gamma }}</h5>
-                </div>
-                <div class="d-flex mt-1">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">{{ params.epsilon.label }}:</h5>
-                    </div>
-                    <h5 id="evalEpsilon">{{ ai.epsilon }}</h5>
-                </div>
-                <div class="d-flex mt-1">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">{{ params.eat.label }} Reward:</h5>
-                    </div>
-                    <h5 id="eatReward">{{ ai.eat }}</h5>
-                </div>
-                <div class="d-flex mt-1">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">{{ params.alive.label }} Reward:</h5>
-                    </div>
-                    <h5 id="aliveReward">{{ ai.alive }}</h5>
-                </div>
-                <div class="d-flex mt-1">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">{{ params.die.label }} Reward:</h5>
-                    </div>
-                    <h5 id="dieReward">{{ ai.die }}</h5>
-                </div>
-                {% endif %}
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">Count: <span class="stat-value" id="games">0</span></h5>
+                </div> 
 
-                <!-- Evaluation Results -->
-                <div style="width: 300px;" class="d-flex mt-3">
+                <!-- Results -->
+                <div style="width: 300px;" class="d-flex mt-4">
                     <h5 class="text-left" style="text-decoration: underline;">Results:</h5>
                 </div>
                 <div id="hideOneEpisodeScore">
-                    <div class="d-flex mt-3">
-                        <div style="width: 200px;">
-                            <h5 class="text-left">Final score from 1 episode:</h5>
-                        </div>
-                        <h5 id="oneEpisodeScoreText"></h5>
+                    <div style="width: 300px;" class="d-flex mt-1">
+                        <h5 class="stat-label">Score from 1 game: <span class="stat-value" id="oneEpisodeScoreText">?</span></h5>
                     </div>                
                 </div>
-                <div id="hideHighestScore">
-                    <div class="d-flex mt-3">
-                        <div style="width: 200px;">
-                            <h5 class="text-left">Highest score from 10 episodes:</h5>
-                        </div>
-                        <h5 id="highestScoreText"></h5>
+                <div id="hidehighScore">
+                    <div style="width: 300px;" class="d-flex mt-1">
+                        <h5 class="stat-label">High score from 10 games: <span class="stat-value" id="highScoreText">?</span></h5>
                     </div>                
                 </div>
                 <div id="hideAvgScore">
-                    <div class="d-flex mt-3">
-                        <div style="width: 200px;">
-                            <h5 class="text-left">Average score from 10 episodes:</h5>
-                        </div>
-                        <h5 id="avgScoreText"></h5>
+                    <div style="width: 300px;" class="d-flex mt-1">
+                        <h5 class="stat-label">Avg score from 10 games: <span class="stat-value" id="avgScoreText">?</span></h5>
                     </div>
                 </div>
+
+                <!-- Training Settings -->
+                {% if ai %}
+                <div style="width: 300px;" class="d-flex mt-4">
+                    <h5 style="text-decoration: underline;">Training Settings</h5>
+                </div>
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">{{ params.alpha.label }}: <span class="stat-value" id="evalAlpha">{{ ai.alpha }}</span></h5>
+                </div> 
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">{{ params.gamma.label }}: <span class="stat-value" id="evalAlpha">{{ ai.gamma }}</span></h5>
+                </div> 
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">{{ params.epsilon.label }}: <span class="stat-value" id="evalAlpha">{{ ai.epsilon }}</span></h5>
+                </div> 
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">{{ params.eat.label }}: <span class="stat-value" id="evalAlpha">{{ ai.eat }}</span></h5>
+                </div> 
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">{{ params.alive.label }}: <span class="stat-value" id="evalAlpha">{{ ai.alive }}</span></h5>
+                </div> 
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">{{ params.die.label }}: <span class="stat-value" id="evalAlpha">{{ ai.die }}</span></h5>
+                </div> 
+                {% endif %}
 
             </div>
             <div class="col align-self-center game-container">
@@ -98,14 +79,18 @@
 
                 <!-- Buttons -->
                 <div class="col mt-5">
-                    <div class="text-center">
+                    <div class="d-flex flex-wrap justify-content-center" style="gap: 1rem;">
                         <button style="width: 200px;" class="btn button mx-3" id="evalOnceBtn">evaluate once</button>
-                        <button style="width: 200px;" class="btn button mx-3" id="evalTenBtn">evaluate avg</button>
+                        <button style="width: 200px;" class="btn button mx-3" id="evalTenBtn">evaluate ten</button>
                         <button style="width: 200px;" class="btn button mx-3" id="evalOffBtn">stop eval</button>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="/training" style="width: 200px;" class="btn button mx-3">back</a>
-                        <a href="/reflection" style="width: 200px;" class="btn button mx-3">continue</a>
+                        <a href="/training" style="width: 200px;" class="btn button-outline mx-3">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> back
+                        </a>
+                        <a href="/reflection" style="width: 200px;" class="btn button-outline mx-3">
+                            continue <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
                 

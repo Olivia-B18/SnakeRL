@@ -199,12 +199,12 @@ def load_agent(file_name):
     if not os.path.exists(file_path):
         return None
 
-    # Path to "model_20.pth"
-    model_20_path = "./website/model/model_20.pth"
+    # # Path to "model_20.pth", which is my current best agent
+    # model_20_path = "./website/model/model_20.pth"
 
     # Load saved weights into a Agent
     model = Linear_QNet(QNET_INPUT_SIZE, QNET_HIDDEN_SIZE, QNET_OUTPUT_SIZE)
-    model.load_state_dict(torch.load(model_20_path, map_location="cpu", weights_only=True))
+    model.load_state_dict(torch.load(file_path, map_location="cpu", weights_only=True))
     agent = Agent(0 ,0, 0) # this is for evaluation, so hyperparameters don't matter
     agent.model = model
 

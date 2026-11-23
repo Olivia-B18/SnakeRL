@@ -1,4 +1,8 @@
-/* STYLING FOR SNAKE GAMES */
+/*
+STYLING FOR SNAKE GAMES
+*/
+
+/* SNAKE CANVAS */
 
 .game-container { /* The div to hold the game */
     text-align: center;
@@ -8,4 +12,26 @@
     border: 3px solid;
     border-radius: 4%;
     background-color: white;
+}
+
+/* STAT SIDEBAR */
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.7); /* muted white */
+}
+
+.stat-value {
+    font-weight: bold;
+    color: white;
+}
+
+/* TRAINING SLIDERS */
+
+/* Fixed width so the slider columns stay the same distance apart whether
+   or not the training stats sidebar is showing. 616px is the width they
+   get beside the sidebar: the 646px canvas column minus its padding. */
+.training-sliders {
+    max-width: 616px;
+    margin-left: auto;
+    margin-right: auto;
 }

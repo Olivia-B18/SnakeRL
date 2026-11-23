@@ -15,36 +15,31 @@
         <h1 class="text-center title">Training an Agent</h1>
         <br>
         <div class="row no-gutters">
-            <!-- Training Score Progression -->
+
+            <!-- Training Stats -->
             <div class="col align-self-start" id="hideTrainingSidebar">
-                <div class="d-flex">
-                    <div style="width: 200px;">
-                        <h5 class="text-left"> Current score:</h5>
-                    </div>
-                    <h5 id="score">0</h5>
+
+                <!-- Game Counter -->
+                <div style="width: 300px;" class="d-flex">
+                    <h5 style="text-decoration: underline;">Games Completed</h5>
                 </div>
-                <div class="d-flex mt-5">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">Your high score:</h5>
-                    </div>
-                    <h5 id="highscore">0</h5>
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">Count: <span class="stat-value" id="games">0/100</span></h5>
+                </div> 
+
+                <!-- Results -->
+                <div style="width: 300px;" class="d-flex mt-4">
+                    <h5 style="text-decoration: underline;">Results</h5>
                 </div>
-                <div class="d-flex mt-5">
-                    <div style="width: 200px;">
-                        <h5 class="text-left accent-text">TrainYourAI high score:</h5>
-                    </div>
-                    <h5 class="accent-text">40</h5>
-                </div>
-                <div class="d-flex mt-5">
-                    <div style="width: 200px;">
-                        <h5 class="text-left">Games completed:</h5>
-                    </div>
-                    <h5 id="games">0/100</h5>
-                </div>
-                <div style="width: 300px;" class="d-flex mt-5">
-                    <h5 class="accent-text">Notice how the RL agent (snake) behaves differently based off how you trained it...</h5>
-                </div>
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">Current score: <span class="stat-value" id="score">0</span></h5>
+                </div>                 
+                <div style="width: 300px;" class="d-flex mt-1">
+                    <h5 class="stat-label">High score: <span class="stat-value" id="highscore">0</span></h5>
+                </div> 
+
             </div>
+
             <!-- Game canvas, sliders, and buttons -->
             <div class="col align-self-center game-container">
                 <!-- Game canvas -->
@@ -52,8 +47,7 @@
                 <!-- Sliders -->
                 <div class="col text-center">
                     <br>
-                    <fieldset id="training-sliders">
-                        <legend>Choose the hyperparameters to train your agent with.</legend>
+                    <fieldset id="training-sliders" class="training-sliders">
                         <div class="row">
 
                             <!-- Left column: agent hyperparameters -->
@@ -170,8 +164,12 @@
                         <button style="width: 200px;" class="btn button mx-3" id="trainOffBtn">stop training</button>
                     </div>
                     <div class="text-center mt-5">
-                        <a href="/parameters" style="width: 200px;" class="btn button mx-3">back</a>
-                        <a href="/evaluation" style="width: 200px;" class="btn button mx-3">continue</a>
+                        <a href="/parameters" style="width: 200px;" class="btn button-outline mx-3">
+                            <i class="fa fa-arrow-left" aria-hidden="true"></i> back
+                        </a>
+                        <a href="/evaluation" style="width: 200px;" class="btn button-outline mx-3">
+                            continue <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </a>
                     </div>
                 </div>
             </div>

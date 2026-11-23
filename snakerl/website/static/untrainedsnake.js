@@ -7,12 +7,15 @@ JavaScript for the untrained agent page.
 // Sidebar content to show/hide
 const hideEvalSidebarDiv = document.getElementById("hideEvalSidebar");
 const hideOneEpisodeScoreDiv = document.getElementById("hideOneEpisodeScore");
-const hideHighestScoreDiv = document.getElementById("hideHighestScore");
+const hideHighScoreDiv = document.getElementById("hideHighScore");
 const hideAvgScoreDiv = document.getElementById("hideAvgScore");
+
+// HTML text for game counter
+const gamesText = document.querySelector("#games");
 
 // HTML text for evaluation stats
 const oneEpisodeScoreText = document.querySelector("#oneEpisodeScoreText");
-const highestScoreText = document.querySelector("#highestScoreText");
+const highScoreText = document.querySelector("#highScoreText");
 const avgScoreText = document.querySelector("#avgScoreText");
 
 // Connection to the server
@@ -21,10 +24,14 @@ const socket = io();
 // The snake
 snake = []
 
-// Values for evaluation stats
-let oneEpisodeScore = 0;
-let highestScore = 0;
-let avgScore = 0;
+// Values for game counter
+let games = 0;
+let maxGames = -1;
+
+// Values for evaluation stats (null = no result yet, shown as "?")
+let oneEpisodeScore = null;
+let highScore = null;
+let avgScore = null;
 
 // Flags for if evaluation is in progress
 let running = false;
@@ -35,13 +42,23 @@ let stopRequested = false;
 // Hide sidebar
 hideEvalSidebarDiv.style.display = "none";
 hideOneEpisodeScoreDiv.style.display = "none";
-hideHighestScoreDiv.style.display = "none";
+hideHighScoreDiv.style.display = "none";
 hideAvgScoreDiv.style.display = "none";
 
 // Draw message to canvas
 document.fonts.load(messageFont)
     .catch(() => { })
-    .then(() => drawMessage("untrained arena", gameWidth / 2, gameHeight / 2));
+    .then(() => {
+        drawMessages([
+            "Use the buttons below to evaluate",
+            "the score of an untrained agent",
+            "playing Snake.",
+            "",
+            "Evaluate for 1 game or across",
+            "10 games and watch the agent",
+            "earn points.",
+        ])
+    });    
 
 /* DEFINE ACTIVATION OF EVALUATION BUTTONS */
 
@@ -51,8 +68,22 @@ document.getElementById("evalOnceBtn").addEventListener("click", function () {
         showError("Current evaluation must be complete or be stopped before evaluating again.")
     }
     else {
+
+        // Run evaluation; clear old results so they show "?" until it finishes
         running = true;
+        oneEpisodeScore = null;
+        highScore = null;
+        avgScore = null;
         socket.emit("evaluate_untrained", {"numEpisodes": 1});
+
+        // Set maxGames
+        maxGames = 1;
+
+        /* show/hide sidebar content */
+        hideEvalSidebarDiv.style.display = "block";
+        hideOneEpisodeScoreDiv.style.display = "block";
+        hideHighScoreDiv.style.display = "none";
+        hideAvgScoreDiv.style.display = "none";
     }
 })
 
@@ -62,8 +93,33 @@ document.getElementById("evalTenBtn").addEventListener("click", function () {
         showError("Current evaluation must be complete or be stopped before evaluating again.")
     }
     else {
+
+        // Run evaluation; clear old results so they show "?" until it finishes
         running = true;
+        oneEpisodeScore = null;
+        highScore = null;
+        avgScore = null;
         socket.emit("evaluate_untrained", {"numEpisodes": 10});
+
+        // Set maxGames
+        maxGames = 10;
+
+        /* show/hide sidebar content */
+        hideEvalSidebarDiv.style.display = "block";
+        hideOneEpisodeScoreDiv.style.display = "none";
+        hideHighScoreDiv.style.display = "block";
+        hideAvgScoreDiv.style.display = "block";
+    }
+})
+
+// evalOffBtn: stop evaluation
+document.getElementById("evalOffBtn").addEventListener("click", function () {
+    if (!running) {
+        showError("There is no evaluation running to stop.");
+    }
+    else if (!stopRequested) {
+        stopRequested = true;
+        socket.emit("stop_episode");
     }
 })
 
@@ -82,29 +138,20 @@ socket.on("evaluation_done", function (data) {
         // Draw concluding message
         drawMessage("evaluation concluded", gameWidth / 2, gameHeight / 2);
 
+        // Update game counter
+        games = data["scores"].length;
+
         // Fill variables with scores to later draw to browser
         if (data["scores"].length == 1) {
             oneEpisodeScore = data["scores"][0];
-
-            /* show/hide sidebar content */
-            hideEvalSidebarDiv.style.display = "block";
-            hideOneEpisodeScoreDiv.style.display = "block";
-            hideHighestScoreDiv.style.display = "none";
-            hideAvgScoreDiv.style.display = "none";
         }
         else {
-            highestScore = Math.max(...data["scores"]);
+            highScore = Math.max(...data["scores"]);
             let sum = 0;
             for (let i = 0; i < data["scores"].length; i++) {
                 sum += data["scores"][i];
             }
             avgScore = (sum / data["scores"].length).toFixed(1);
-
-            /* show/hide sidebar content */
-            hideEvalSidebarDiv.style.display = "block";
-            hideOneEpisodeScoreDiv.style.display = "none";
-            hideHighestScoreDiv.style.display = "block";
-            hideAvgScoreDiv.style.display = "block";
         }
     }
     else {
@@ -113,14 +160,6 @@ socket.on("evaluation_done", function (data) {
 
     // Draw stats
     drawEvaluationStats();   
-})
-
-// evalOffBtn: stop evaluation
-document.getElementById("evalOffBtn").addEventListener("click", function () {
-    if (running && !stopRequested) {
-        stopRequested = true;
-        socket.emit("stop_episode");
-    }
 })
 
 /* DRAW SNAKE DURING EVALUATION */
@@ -134,6 +173,7 @@ socket.on("snake_data", function (data) {
     foodX = data["data"]["apple"]["x"];
     foodY = data["data"]["apple"]["y"];
     snake = data["data"]["snake"];
+    games = data["data"]["stats"]["games"];
     drawFood();
     drawSnake();
     drawEvaluationStats();
@@ -141,7 +181,13 @@ socket.on("snake_data", function (data) {
 
 // Draw evaluation score stats
 function drawEvaluationStats() {
-    oneEpisodeScoreText.textContent = oneEpisodeScore;
-    highestScoreText.textContent = highestScore;
-    avgScoreText.textContent = avgScore;
+    gamesText.textContent = games + "/" + maxGames;
+    oneEpisodeScoreText.textContent = scoreOrPending(oneEpisodeScore);
+    highScoreText.textContent = scoreOrPending(highScore);
+    avgScoreText.textContent = scoreOrPending(avgScore);
+}
+
+// A score, or "?" while it hasn't been calculated yet
+function scoreOrPending(score) {
+    return score === null ? "?" : score;
 }

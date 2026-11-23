@@ -33,6 +33,13 @@ def create_app():
     def load_user(id):
         return User.query.get(int(id))
 
+    # Lesson pages for the navigation sidebar in base.html
+    from . import flow
+
+    @app.context_processor
+    def inject_nav():
+        return {"nav_items": flow.nav_items()}
+
     socketio.init_app(app)
 
     return app

@@ -101,3 +101,15 @@ run on port 5001
 * Added `howtosnake.html`.
 * Added instructions to canvas in `playsnake.html`.
 * Created `notes/heuristic_eval.md` and the heuristic evaluation for SnakeRL.
+* Distinguished between action buttons like "train" from navigation buttons
+like "continue."
+* Revamped layout of sidebar stats.
+* Claude Code locked sliders when agent is training, added lesson steps
+on parameters page, and added site navigation.
+* Fixed bugs from pilot run with a friend:
+    * Added more detailed explanations to agent parameters.
+    * Add error message for stop eval when no eval is happening
+    * Verify that agent from training gets loaded and not hard-coded agent
+    * Explain that the agent from last page is what will be evaluated
+    * Explain next/previous on parameters
+    * Change avg to say 10

@@ -11,6 +11,8 @@ CSS Styling for the entire SnakeRL web app tool.
     --divider-color: rgba(255, 255, 255, 0.3);
     --body-text-size: 20px;
     --button-text-size: 1.5rem;
+    --surface-color: color-mix(in srgb, var(--bg-color) 88%, white); /* header and sidebar */
+    --header-height: 56px;
 }
 
 /* STYLING FOR BUILT-IN ELEMENTS */
@@ -116,7 +118,22 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
+/* Disabled sliders (e.g. during training) keep their normal color.
+   Overrides Bootstrap's gray .custom-range:disabled thumb; this selector's
+   specificity also blocks the hover/active color changes above. */
+.custom-range:disabled::-webkit-slider-thumb {
+    background-color: var(--accent-dark);
+}
+
+.custom-range:disabled::-moz-range-thumb {
+    background-color: var(--accent-dark);
+}
+
 /* CUSTOM CLASS DEFINTIONS */
+
+.body-text {
+    width: 700px;
+}
 
 .accent-text {
     color: var(--accent);
@@ -133,6 +150,23 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     width: 130px;
     font-weight: bold;
     font-size: var(--button-text-size);
+}
+
+.button-outline {
+    background-color: transparent;
+    border: 2px solid var(--accent);
+    color: var(--accent);
+    font-weight: bold;
+    font-size: var(--button-text-size);
+}
+
+.button-outline:hover {
+    background-color: var(--accent);
+    color: var(--bg-color);
+}
+
+.button-outline:focus {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
 }
 
 .button:hover {
@@ -158,7 +192,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 }
 
 .container-spacing {
-    margin-top: 60px;
+    margin-top: 40px; /* the sticky header adds its own height above this */
     margin-bottom: 80px;
 }
 
@@ -180,11 +214,66 @@ input[type="range"]:focus-visible::-moz-range-thumb {
     margin-bottom: 3rem;
 }
 
+/* STYLING FOR LESSON STEPS (one section at a time, see lessonsteps.js) */
+
+/* Only hide sections once the script has switched the page to paged mode,
+   so every section still shows if JavaScript fails */
+/* Stop at the bottom of the sticky header when scrolled into view
+   (the container by the next/previous buttons, a section by a #link) */
+.lesson-steps,
+.lesson-step {
+    scroll-margin-top: calc(var(--header-height) + 1rem);
+}
+
+.lesson-steps.paged .lesson-step:not(.active) {
+    display: none;
+}
+
+.step-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 2px solid var(--divider-color);
+    padding-top: 1rem;
+}
+
+.step-nav[hidden] {
+    display: none;
+}
+
+/* Lighter than .button / .button-outline: moves within the page, not between pages */
+.step-button {
+    background: none;
+    border: none;
+    padding: 0.25rem 0.5rem;
+    color: var(--accent);
+    font-weight: bold;
+    font-size: var(--body-text-size);
+}
+
+.step-button:hover {
+    color: var(--accent-hover);
+    text-decoration: underline;
+}
+
+.step-button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+.step-button:disabled {
+    visibility: hidden; /* keep the counter centered */
+}
+
+.step-counter {
+    color: rgba(255, 255, 255, 0.7);
+}
+
 /* STYLING FOR ERROR MESSAGE BANNERS */
 
 .flash-messages {
     position: fixed; /* Keep error messages pinned to top of window while scrolling */
-    top: 1rem;
+    top: calc(var(--header-height) + 1rem); /* just below the sticky header */
     left: 1rem;
     right: 1rem;
     z-index: 1050;
@@ -194,6 +283,224 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 .flash-messages .alert {
     pointer-events: auto;
     margin-bottom: 0.5rem;
+}
+
+/* STYLING FOR NAVIGATION SIDEBAR (markup in base.html, toggled by sitenav.js) */
+
+/* Sticky header across the top of every page */
+.site-header {
+    position: sticky;
+    top: 0;
+    z-index: 1045; /* above the sidebar and backdrop, below flash messages */
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem 0 0.5rem;
+    background-color: var(--surface-color);
+    border-bottom: 2px solid var(--divider-color);
+}
+
+.site-name {
+    font-size: 1.35rem;
+    font-weight: bold;
+    color: white;
+}
+
+.site-step {
+    margin-left: auto;
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Burger button: three lines, at the left end of the header */
+.nav-toggle {
+    flex: 0 0 auto;
+    width: 44px;
+    height: 44px;
+    padding: 10px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: none;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.nav-toggle-line {
+    display: block;
+    height: 3px;
+    border-radius: 2px;
+    background-color: white;
+}
+
+.nav-toggle:hover .nav-toggle-line {
+    background-color: var(--accent);
+}
+
+.nav-toggle:focus {
+    outline: none;
+}
+
+.nav-toggle:focus-visible {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* The sidebar panel: below the header, off-screen to the left until opened */
+.site-nav {
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    left: 0;
+    z-index: 1040;
+    width: 280px;
+    max-width: 85vw;
+    padding: 1.5rem 1rem 2rem;
+    overflow-y: auto;
+    background-color: var(--surface-color);
+    border-right: 2px solid var(--divider-color);
+    transform: translateX(-100%);
+    visibility: hidden; /* keeps closed links out of the tab order */
+    transition: transform 0.25s ease, visibility 0s linear 0.25s;
+}
+
+.site-nav-open .site-nav {
+    transform: translateX(0);
+    visibility: visible;
+    transition: transform 0.25s ease, visibility 0s;
+}
+
+/* No slide while the page loads; sitenav.js removes this class once the
+   sidebar is in its starting state, so only clicks animate it */
+.site-nav-preload,
+.site-nav-preload .site-nav,
+.site-nav-preload .site-nav-backdrop {
+    transition: none !important;
+}
+
+/* Invisible layer over the page while the sidebar is open; clicking it
+   closes the sidebar. Transparent so the page isn't dimmed. */
+.site-nav-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 1035;
+    background-color: transparent;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s ease;
+}
+
+.site-nav-open .site-nav-backdrop {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.site-nav-title {
+    font-size: 1.25rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin: 0 0 1rem 0.75rem;
+}
+
+.site-nav-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.site-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+    border-radius: 6px;
+    color: white;
+    font-size: var(--body-text-size);
+}
+
+a.site-nav-link:hover {
+    color: var(--accent);
+    background-color: rgba(255, 255, 255, 0.06);
+    text-decoration: none;
+}
+
+a.site-nav-link:focus {
+    outline: none;
+}
+
+a.site-nav-link:focus-visible {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* The page you are on */
+.site-nav-link.current {
+    color: var(--accent);
+    font-weight: bold;
+    background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Pages not reached yet (only when flow enforcement is on) */
+.site-nav-link.locked {
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+}
+
+.site-nav-number {
+    flex: 0 0 1.75rem;
+    height: 1.75rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+/* Sections within a page (e.g. the parameters lesson steps), indented
+   under the page with a guide line running down from its number circle */
+.site-nav-sublist {
+    list-style: none;
+    margin: 0.25rem 0 0.5rem 1.6rem;
+    padding: 0 0 0 0.75rem;
+    border-left: 2px solid var(--divider-color);
+}
+
+.site-nav-sublink {
+    display: block;
+    padding: 0.3rem 0.75rem;
+    border-radius: 6px;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1rem;
+}
+
+a.site-nav-sublink:hover {
+    color: var(--accent);
+    background-color: rgba(255, 255, 255, 0.06);
+    text-decoration: none;
+}
+
+a.site-nav-sublink:focus {
+    outline: none;
+}
+
+a.site-nav-sublink:focus-visible {
+    box-shadow: 0 0 0 0.2rem color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+/* The section currently showing (set by lessonsteps.js) */
+.site-nav-sublink.current {
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.site-nav-sublink.locked {
+    color: rgba(255, 255, 255, 0.4);
+    cursor: not-allowed;
+}
+
+.site-nav-lock {
+    margin-left: auto;
 }
 
 /* BOOTSTRAP OVERRIDES */

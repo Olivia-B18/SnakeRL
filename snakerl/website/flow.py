@@ -17,7 +17,7 @@ answers if a person is signed in, not managing locking pages.
 """
 
 from functools import wraps
-from flask import flash, redirect, session, url_for
+from flask import flash, redirect, request, session, url_for
 
 # The lesson pages in the order they must be visited. These are view function
 # names on the `views` blueprint.
@@ -30,6 +30,35 @@ FLOW = ["intro",
         "evaluation",
         "reflection",
         ]
+
+# Names shown for each page in the navigation sidebar
+LABELS = {"intro": "Introduction",
+          "howtosnake": "How to Play Snake",
+          "playsnake": "Play Snake",
+          "untrained": "Untrained Agent",
+          "parameters": "Parameters",
+          "training": "Training",
+          "evaluation": "Evaluation",
+          "reflection": "Reflection",
+          }
+
+# Sections inside a page that the sidebar lists, indented under that page.
+# Each is (section id, sidebar label). The ids must match the
+# <section class="lesson-step" id="..."> elements in that page's template,
+# in the same order, so keep this in sync when sections change.
+SUBSTEPS = {"parameters": [("untrained-agent", "Untrained Agent Discussion"),
+                           ("mdp", "Markov Decision Processes"),
+                           ("q-values", "What are Q-values?"),
+                           ("bellman", "The Bellman Equation"),
+                           ("parameters", "Hyperparameters"),
+                           ("agent_parameters", "Agent Hyperparameters"),
+                           ("env_parameters", "Environment Hyperparameters"),
+                           ],
+            }
+
+# Pages actually guarded by @flow.step. Filled in as views are decorated, so
+# the sidebar only shows a page as locked once its view enforces the order.
+GUARDED = set()
 
 SESSION_KEY = "flow_unlocked"
 
@@ -55,6 +84,7 @@ def step(name):
     """Guard a view as step `name` of the lesson.
     """
     stage = FLOW.index(name)  # raises at import time if `name` is misspelled
+    GUARDED.add(name)
 
     def decorator(f):
         @wraps(f)
@@ -73,3 +103,27 @@ def step(name):
         return wrapped
 
     return decorator
+
+
+def is_locked(name):
+    """True if the page is guarded by @flow.step and not yet unlocked."""
+    return name in GUARDED and FLOW.index(name) > unlocked()
+
+
+def nav_items():
+    """The lesson pages, in order, for the navigation sidebar."""
+    items = []
+    for i, name in enumerate(FLOW):
+        url = url_for("views." + name)
+        items.append({"number": i + 1,
+                      "label": LABELS[name],
+                      "url": url,
+                      "locked": is_locked(name),
+                      "current": request.endpoint == "views." + name,
+                      "substeps": [{"id": step_id,
+                                    "label": label,
+                                    "url": url + "#" + step_id,
+                                    }
+                                   for step_id, label in SUBSTEPS.get(name, [])],
+                      })
+    return items

@@ -20,7 +20,73 @@
         {% block head %}{% endblock %}
         <title>{% block title %}Base{% endblock %}</title>
     </head>
-    <body>
+    <!-- site-nav-open: sidebar starts open; sitenav.js then applies the
+         user's last choice.
+         site-nav-preload: no slide animation while the page loads. -->
+    <body class="site-nav-open site-nav-preload">
+    
+        <!-- Sticky header: burger button, site name, and lesson step -->
+        {% set current_page = nav_items | selectattr("current") | first %}
+        <header class="site-header">
+            <button type="button"
+                    class="nav-toggle"
+                    id="navToggle"
+                    aria-label="Close navigation"
+                    aria-controls="siteNav"
+                    aria-expanded="true">
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+                <span class="nav-toggle-line"></span>
+            </button>
+            <span class="site-name">SnakeRL</span>
+            {% if current_page %}
+                <span class="site-step">Step {{ current_page.number }} of {{ nav_items | length }}</span>
+            {% endif %}
+        </header>
+
+        <!-- Navigation sidebar: burger button slides it in and out (sitenav.js) -->
+        <div class="site-nav-backdrop" id="siteNavBackdrop"></div>
+        <nav class="site-nav" id="siteNav" aria-label="Lesson pages">
+            <h2 class="site-nav-title">Lessons</h2>
+            <ol class="site-nav-list">
+                {% for item in nav_items %}
+                    <li>
+                        {% if item.locked %}
+                            <span class="site-nav-link locked" aria-disabled="true" title="Finish the earlier pages first">
+                                <span class="site-nav-number">{{ loop.index }}</span>
+                                {{ item.label }}
+                                <i class="fa fa-lock site-nav-lock" aria-hidden="true"></i>
+                                <span class="sr-only">(locked)</span>
+                            </span>
+                        {% else %}
+                            <a href="{{ item.url }}"
+                               class="site-nav-link{% if item.current %} current{% endif %}"
+                               {% if item.current %}aria-current="page"{% endif %}>
+                                <span class="site-nav-number">{{ loop.index }}</span>
+                                {{ item.label }}
+                            </a>
+                        {% endif %}
+                        {% if item.substeps %}
+                            <!-- Sections within this page, indented under it -->
+                            <ol class="site-nav-sublist">
+                                {% for sub in item.substeps %}
+                                    <li>
+                                        {% if item.locked %}
+                                            <span class="site-nav-sublink locked" aria-disabled="true">{{ sub.label }}</span>
+                                        {% else %}
+                                            <a href="{{ sub.url }}" class="site-nav-sublink" data-step="{{ sub.id }}">{{ sub.label }}</a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ol>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ol>
+        </nav>
+        <script src="{{ url_for('static', filename='sitenav.js') }}"></script>
+
+        <!-- Error messages -->
         <div id="flash-messages" class="flash-messages">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% if messages %}
@@ -38,6 +104,7 @@
                 {% endif %}
             {% endwith %}
         </div>
+
         <!-- Container for body of the page -->
         <div class="container container-spacing">
             {% block container %}{% endblock %}

@@ -3,7 +3,7 @@
     Introduction
 {% endblock %}
 {% block container %}
-    <div class="mx-auto" style="width: 600px;">
+    <div class="mx-auto body-text">
 
         <!-- Title -->
         <h1 class="text-center title">How To Play Snake</h1>
@@ -40,8 +40,8 @@
 
         <p>
             <b>Best scores.</b> When you play Snake, the best score is about
-            9 points while a good score is about 5. When the RL agent plays
-            Snake, the best score known so far is about 57 while a good score
+            9 points while a common score is about 5. When the RL agent plays
+            Snake, the best score known so far is about 57 while a common score
             is about 20.
         </p>
 
@@ -49,6 +49,13 @@
             <b>Game speed.</b> When you play Snake, the game will speed up
             each round to make things more challenging. When the RL agent
             learns how to play, its games won't be sped up.
+        </p>
+
+        <p>
+            <b>Timing Out.</b> When you play Snake, so long as you are still
+            alive, you can play. When the RL agent plays Snake, its games are
+            forced to end after 60 frames of doing nothing. This forces the
+            agent to learn sooner than later.
         </p>
 
         <!-- Next Up -->
@@ -61,8 +68,12 @@
         <!-- Buttons -->
         <div class="col mt-5">
             <div class="text-center">
-                <a href="/intro" style="width: 200px;" class="btn button mx-3">back</a>
-                <a href="/playsnake" style="width: 200px;" class="btn button mx-3">continue</a>
+                <a href="/intro" style="width: 200px;" class="btn button-outline mx-3">
+                    <i class="fa fa-arrow-left" aria-hidden="true"></i> back
+                </a>
+                <a href="/playsnake" style="width: 200px;" class="btn button-outline mx-3">
+                    continue <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                </a>
             </div>
         </div>
     </div>

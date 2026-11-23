@@ -9,7 +9,7 @@ const hideTrainingSidebarDiv = document.getElementById("hideTrainingSidebar")
 
 // HTML text for training stats
 const scoreText = document.querySelector("#score");
-const gamesText = document.querySelector("#games")
+const gamesText = document.querySelector("#games");
 const highscoreText = document.querySelector("#highscore");
 
 // Slider elements
@@ -20,7 +20,7 @@ const socket = io();
 
 // Values training stats
 let score = 0;
-let gameScore = 0;
+let highScore = 0;
 let games = 0;
 let numTrainings = 0;
 
@@ -39,7 +39,18 @@ hideTrainingSidebarDiv.style.display = "none";
 // Draw message to canvas
 document.fonts.load(messageFont)
     .catch(() => { })
-    .then(() => drawMessage("training arena", gameWidth / 2, gameHeight / 2));
+    .then(() => {
+        drawMessages([
+            "Use the sliders below to select",
+            "hyperparameters for training.",
+            "",
+            "Then press train below and watch",
+            "the agent earn points.",
+            "",
+            "Fully train an agent to then",
+            "evaluate it in the next step."
+        ])
+    });
 
 /* JAVASCRIPT FOR SLIDERS */
 
@@ -55,6 +66,13 @@ function updateDisplayOutput(inputEvent) {
     trainingOutput.value = inputEvent.target.value;
 }
 
+// Lock or unlock every slider (locked while training is running)
+function setSlidersDisabled(disabled) {
+    trainingInputElements.forEach((slider) => {
+        slider.disabled = disabled;
+    });
+}
+
 /* DEFINE ACTIVATION OF TRAINING BUTTONS */
 
 // trainBtn: tell server to "train"
@@ -64,6 +82,7 @@ document.getElementById("trainBtn").addEventListener("click", function () {
     }
     else {
         running = true;
+        setSlidersDisabled(true);
 
         // Get selected slider settings from browser
         const trainingInputValues = Object.fromEntries(
@@ -77,7 +96,10 @@ document.getElementById("trainBtn").addEventListener("click", function () {
 
 // trainOffBtn: stop training
 document.getElementById("trainOffBtn").addEventListener("click", function () {
-    if (running && !stopRequested) {
+    if (!running) {
+        showError("There is no training running to stop.");
+    }
+    else if (!stopRequested) {
         stopRequested = true;
         socket.emit("stop_episode");
     }
@@ -89,6 +111,7 @@ socket.on("training_done", function (data) {
     // Turn training arena off
     running = false;
     stopRequested = false;
+    setSlidersDisabled(false);
     clearBoard();
 
     // If training completed, get and display training stats.
@@ -118,7 +141,7 @@ socket.on("snake_data", function (data) {
     snake = data["data"]["snake"];
     games = data["data"]["stats"]["games"];
     score = data["data"]["stats"]["score"];
-    gameScore = data["data"]["stats"]["record"];
+    highScore = data["data"]["stats"]["record"];
     drawFood();
     drawSnake();
     drawTrainingStats();
@@ -127,6 +150,6 @@ socket.on("snake_data", function (data) {
 /* Draw training stats */
 function drawTrainingStats() {
     scoreText.textContent = score;
-    highscoreText.textContent = gameScore;
-    gamesText.textContent = games + "/100"
+    highscoreText.textContent = highScore;
+    gamesText.textContent = games + "/100";
 }
