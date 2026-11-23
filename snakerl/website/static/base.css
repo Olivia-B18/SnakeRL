@@ -291,7 +291,7 @@ input[type="range"]:focus-visible::-moz-range-thumb {
 .site-header {
     position: sticky;
     top: 0;
-    z-index: 1045; /* above the sidebar and backdrop, below flash messages */
+    z-index: 1045; /* above the sidebar, below flash messages */
     height: var(--header-height);
     display: flex;
     align-items: center;
@@ -375,25 +375,32 @@ input[type="range"]:focus-visible::-moz-range-thumb {
    sidebar is in its starting state, so only clicks animate it */
 .site-nav-preload,
 .site-nav-preload .site-nav,
-.site-nav-preload .site-nav-backdrop {
+.site-nav-preload .site-main,
+.site-nav-preload .flash-messages {
     transition: none !important;
 }
 
-/* Invisible layer over the page while the sidebar is open; clicking it
-   closes the sidebar. Transparent so the page isn't dimmed. */
-.site-nav-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 1035;
-    background-color: transparent;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.25s ease;
+/* Page content (below the header). When the sidebar is open, it is pushed
+   right by the sidebar's width and stays centered in the space that's left.
+   It slides along with the sidebar. The header doesn't move. */
+.site-main {
+    transition: padding-left 0.25s ease;
 }
 
-.site-nav-open .site-nav-backdrop {
-    opacity: 1;
-    pointer-events: auto;
+.flash-messages {
+    transition: left 0.25s ease;
+}
+
+/* Wider than a phone: push the content. On phones there isn't room, so the
+   sidebar covers the page instead. */
+@media (min-width: 768px) {
+    .site-nav-open .site-main {
+        padding-left: 280px;
+    }
+
+    .site-nav-open .flash-messages {
+        left: calc(280px + 1rem);
+    }
 }
 
 .site-nav-title {

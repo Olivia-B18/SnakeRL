@@ -45,7 +45,6 @@
         </header>
 
         <!-- Navigation sidebar: burger button slides it in and out (sitenav.js) -->
-        <div class="site-nav-backdrop" id="siteNavBackdrop"></div>
         <nav class="site-nav" id="siteNav" aria-label="Lesson pages">
             <h2 class="site-nav-title">Lessons</h2>
             <ol class="site-nav-list">
@@ -109,8 +108,11 @@
         </div>
 
         <!-- Container for body of the page -->
-        <div class="container container-spacing">
-            {% block container %}{% endblock %}
-        </div>
+        <!-- Page content: shifts right to make room when the sidebar is open -->
+        <main class="site-main">
+            <div class="container container-spacing">
+                {% block container %}{% endblock %}
+            </div>
+        </main>
     </body>
 </html>

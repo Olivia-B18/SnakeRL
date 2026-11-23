@@ -3,17 +3,17 @@ This JavaScript was written entirely by Claude Code.
 
 Opens and closes the navigation sidebar (markup in base.html).
 
-The sidebar slides in over the page (which is not dimmed). Each page starts with it in the
-state the user last chose (open the first time).
+The sidebar slides in over the left edge of the page. The rest of the page
+stays usable while it is open. Each page starts with it in the state the
+user last chose (open the first time).
 
-The burger button toggles it. Clicking the page outside it or pressing
-Escape closes it. It slides in and out when toggled, but not on page load.
+The burger button toggles it, and Escape closes it. It slides in and out
+when toggled, but not on page load.
 */
 
 (function () {
     const toggle = document.getElementById("navToggle");
     const nav = document.getElementById("siteNav");
-    const backdrop = document.getElementById("siteNavBackdrop");
 
     // Where the user's last open/closed choice is remembered (this browser only)
     const STORAGE_KEY = "siteNavOpen";
@@ -59,7 +59,6 @@ Escape closes it. It slides in and out when toggled, but not on page load.
     }
 
     toggle.addEventListener("click", () => choose(!isOpen()));
-    backdrop.addEventListener("click", () => choose(false));
 
     // Close after choosing a link (matters for links to a section on the same page)
     nav.addEventListener("click", (event) => {
