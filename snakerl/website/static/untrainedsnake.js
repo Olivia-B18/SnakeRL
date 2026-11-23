@@ -56,7 +56,7 @@ document.fonts.load(messageFont)
             "",
             "Evaluate for 1 game or across",
             "10 games and watch the agent",
-            "earn points.",
+            "earn points. Continue when ready.",
         ])
     });    
 
