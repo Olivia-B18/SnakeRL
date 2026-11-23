@@ -1,10 +1,5 @@
 # SnakeRL: Teaching Reinforcement Learning to Undergraduate Students
 
-## TODO:
-1. Mandate users must be signed in.
-2. Mandate pages must be visited in a certain flow.
-3. Add description to SnakeRL section of `README.md`
-
 ## About
 
 **Motivation for SnakeRL.** The field of reinforcement learning (RL)
@@ -99,3 +94,10 @@ A huge thank you to my faculty mentor Professor Coleman for his guidance.
 This project was developed with the use of Claude Code Opus 5.5, including:
 debugging, writing new code, breaking down the steps to code what I wanted,
 tracing through the logic of the TrainYourAI repo, and more.
+
+## Development Tip
+
+If you wish to make a copy of this project to modify yourself, I recommend
+disabling the @login_required and @flow tags in `views.py` and the
+@authenticated_only tag in `events.py` to enable you to skip around
+pages.

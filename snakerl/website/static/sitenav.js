@@ -63,9 +63,16 @@ Escape closes it. It slides in and out when toggled, but not on page load.
 
     // Close after choosing a link (matters for links to a section on the same page)
     nav.addEventListener("click", (event) => {
-        if (event.target.closest("a")) {
-            setOpen(false);
+        const link = event.target.closest("a");
+        if (!link) {
+            return;
         }
+        // Locked links (e.g. sections not reached yet) do nothing
+        if (link.getAttribute("aria-disabled") === "true") {
+            event.preventDefault();
+            return;
+        }
+        setOpen(false);
     });
 
     // Starting state: the user's last choice (open if they haven't chosen yet)

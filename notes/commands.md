@@ -3,19 +3,7 @@
 ## Updating "dependencies.txt"
 
 ```
-python write_dependencies.txt > dependencies.txt
-```
-
-# Removing Temporary DEV Comments
-
-Remove the DEV comments, flow enforcement, and authentication enforcement
-to fully launch the project.
-
-```
-sed -i '' -E \
-    -e 's/^# (@login_required|@flow\.step|@authenticated_only)/\1/' \
-    -e '/^# DEV:/,/^$/d' \
-    snake-plus-plus/website/views.py snake-plus-plus/website/events.py
+python write_dependencies.py > dependencies.txt
 ```
 
 ## Using djLint

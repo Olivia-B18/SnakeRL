@@ -32,7 +32,7 @@ def authenticated_only(f):
     return wrapped
 
 @socketio.on("connect")
-# @authenticated_only
+@authenticated_only
 def handle_connect():
     print("client connected")
 
@@ -84,7 +84,7 @@ def clean(payload):
     return cleaned
 
 @socketio.on("train")
-# @authenticated_only
+@authenticated_only
 def handle_train(training_inputs):
     """
     Server trains an Agent.
@@ -121,7 +121,7 @@ def handle_train(training_inputs):
                                })
 
 @socketio.on("evaluate")
-# @ authenticated_only
+@ authenticated_only
 def handle_evaluate(evaluation_inputs):
     """
     Server evaluates a trained agent.
@@ -186,7 +186,7 @@ def handle_evaluate(evaluation_inputs):
                                     })
 
 @socketio.on("evaluate_untrained")
-# @ authenticated_only
+@ authenticated_only
 def handle_evaluate_untrained(evaluation_inputs):
     """
     Server evaluates untrained agent.
@@ -229,7 +229,7 @@ def handle_evaluate_untrained(evaluation_inputs):
                                      })
 
 @socketio.on("stop_episode")
-# @authenticated_only
+@authenticated_only
 def handle_stop_episode():
     """
     Set stop flag if stop requested by game.

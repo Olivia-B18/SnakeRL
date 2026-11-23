@@ -52,11 +52,11 @@
                 {% for item in nav_items %}
                     <li>
                         {% if item.locked %}
-                            <span class="site-nav-link locked" aria-disabled="true" title="Finish the earlier pages first">
+                            <span class="site-nav-link locked" aria-disabled="true" title="{{ item.lock_reason }}">
                                 <span class="site-nav-number">{{ loop.index }}</span>
                                 {{ item.label }}
                                 <i class="fa fa-lock site-nav-lock" aria-hidden="true"></i>
-                                <span class="sr-only">(locked)</span>
+                                <span class="sr-only">(locked: {{ item.lock_reason }})</span>
                             </span>
                         {% else %}
                             <a href="{{ item.url }}"
@@ -74,7 +74,10 @@
                                         {% if item.locked %}
                                             <span class="site-nav-sublink locked" aria-disabled="true">{{ sub.label }}</span>
                                         {% else %}
-                                            <a href="{{ sub.url }}" class="site-nav-sublink" data-step="{{ sub.id }}">{{ sub.label }}</a>
+                                            <a href="{{ sub.url }}"
+                                               class="site-nav-sublink{% if sub.locked %} locked{% endif %}"
+                                               data-step="{{ sub.id }}"
+                                               {% if sub.locked %}aria-disabled="true" title="Finish the earlier sections first"{% endif %}>{{ sub.label }}</a>
                                         {% endif %}
                                     </li>
                                 {% endfor %}

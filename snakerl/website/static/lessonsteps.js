@@ -13,6 +13,12 @@ reload or the browser's back/forward buttons return to the same step.
 Sidebar links to a step on this page (.site-nav-sublink[data-step]) jump
 straight to it, and the one for the step showing is highlighted.
 If this script fails to run, every section stays visible as one long page.
+
+Section order: when #lessonSteps has data-seen (the furthest step index
+the server says this user has viewed), steps open one at a time. A step
+can be viewed once the one before it has been, and each newly reached
+step is reported to the server (POST /flow/substep), which also unlocks
+the next page after the last step.
 */
 
 (function () {
@@ -27,20 +33,81 @@ If this script fails to run, every section stays visible as one long page.
         .filter(link => link.pathname === location.pathname);
     let current = 0;
 
-    // Index of the step named in the URL hash, or the first step
+    // Furthest step viewed; without data-seen, order isn't enforced
+    const enforced = container.dataset.seen !== undefined;
+    let seen = enforced ? parseInt(container.dataset.seen, 10) : steps.length - 1;
+
+    // Furthest step the user may open right now
+    function maxAllowed() {
+        return Math.min(seen + 1, steps.length - 1);
+    }
+
+    // Index of the step named in the URL hash (or the first step), but no
+    // further than the user has unlocked
     function indexFromHash() {
         const id = decodeURIComponent(location.hash.slice(1));
         const i = steps.findIndex(step => step.id === id);
-        return i === -1 ? 0 : i;
+        return Math.min(i === -1 ? 0 : i, maxAllowed());
+    }
+
+    // Tell the server a new step was reached, and unlock the next one here
+    function reachStep(i) {
+        if (!enforced || i <= seen) {
+            return;
+        }
+        seen = i;
+        updateSidebarLocks();
+        fetch("/flow/substep", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ page: container.dataset.page, step: steps[i].id }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (!data.ok) {
+                    throw new Error("step not recorded");
+                }
+                seen = data.seen; // the server's record is what counts
+                refreshLocks();
+            })
+            .catch(() => {
+                // Not recorded: step back so this step is sent again the
+                // next time it is shown
+                seen = Math.min(seen, i - 1);
+                refreshLocks();
+            });
+    }
+
+    // Re-apply locks to the sidebar and the next button after `seen` changes
+    function refreshLocks() {
+        updateSidebarLocks();
+        nextBtn.disabled = current >= Math.min(steps.length - 1, maxAllowed());
+    }
+
+    // Lock or unlock this page's section links in the sidebar
+    function updateSidebarLocks() {
+        sidebarLinks.forEach(link => {
+            const i = steps.findIndex(step => step.id === link.dataset.step);
+            const locked = i > maxAllowed();
+            link.classList.toggle("locked", locked);
+            if (locked) {
+                link.setAttribute("aria-disabled", "true");
+                link.title = "Finish the earlier sections first";
+            } else {
+                link.removeAttribute("aria-disabled");
+                link.removeAttribute("title");
+            }
+        });
     }
 
     // Show step i and hide the rest; update the controls to match
     function show(i) {
         current = i;
+        reachStep(i);
         steps.forEach((step, j) => step.classList.toggle("active", j === i));
         counter.textContent = (i + 1) + " / " + steps.length;
         prevBtn.disabled = i === 0;
-        nextBtn.disabled = i === steps.length - 1;
+        nextBtn.disabled = i >= Math.min(steps.length - 1, maxAllowed());
         if (continueBtn) {
             continueBtn.hidden = i !== steps.length - 1;
         }
@@ -77,7 +144,7 @@ If this script fails to run, every section stays visible as one long page.
             const i = steps.findIndex(step => step.id === link.dataset.step);
             if (i !== -1) {
                 event.preventDefault();
-                if (i !== current) {
+                if (i !== current && i <= maxAllowed()) {
                     go(i);
                 }
             }
@@ -92,5 +159,10 @@ If this script fails to run, every section stays visible as one long page.
     nav.hidden = false;
     // With a step in the URL, the browser scrolls to that section on load;
     // scroll-margin-top in base.css keeps its heading clear of the header
-    show(indexFromHash());
+    const start = indexFromHash();
+    if (location.hash && location.hash.slice(1) !== steps[start].id) {
+        // The URL asked for a locked step; show the furthest allowed one instead
+        history.replaceState(null, "", "#" + steps[start].id);
+    }
+    show(start);
 })();

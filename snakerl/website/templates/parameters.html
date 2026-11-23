@@ -16,7 +16,8 @@
         <br>
 
         <!-- Lesson steps: lessonsteps.js shows one <section> at a time -->
-        <div class="lesson-steps" id="lessonSteps">
+        <div class="lesson-steps" id="lessonSteps" data-page="parameters"
+             {% if steps_seen is not none %}data-seen="{{ steps_seen }}"{% endif %}>
             <section class="lesson-step" id="untrained-agent">
                 <h3 class="text-center accent-text">Untrained Agent Discussion</h3>
                 <p>
@@ -143,7 +144,7 @@
             <section class="lesson-step" id="agent_parameters">
                 <h3 class="accent-text text-center">Agent Hyperparameters</h3>
                 <p>
-                    1. The <b>learning rate</b> \( \alpha \) affects how much
+                    1. The <b>learning rate</b> \( \alpha \) (alpha) affects how much
                     the agent learns from new information at each step.
                     It is usually a small value like 0.001 to ensure that the agent
                     learns at a slow and steady pace. Bigger values like 0.1 cause
@@ -151,7 +152,7 @@
                     destabilize learning. 
                 </p>
                 <p>
-                    2. The <b>discount factor</b> \( \gamma \) controls how much
+                    2. The <b>discount factor</b> \( \gamma \) (gamma) controls how much
                     the agent cares about future rewards over immediate rewards.
                     It is usually a large value like 0.99. This means that if it
                     takes 3 actions to earn a 10-point apple, then the final reward
@@ -161,7 +162,7 @@
                     sooner than later.
                 </p>
                 <p>
-                    3. The <b>exploration rate</b> \( \epsilon \) determines
+                    3. The <b>exploration rate</b> \( \epsilon \) (epsilon) determines
                     how much the agent prioritizes <b>exploration</b> over
                     <b>exploitation.</b> It is usually set to an initial value
                     like 0.80 and then decays over time. This means that for the

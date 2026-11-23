@@ -494,8 +494,10 @@ a.site-nav-sublink:focus-visible {
     font-weight: bold;
 }
 
-.site-nav-sublink.locked {
+.site-nav-sublink.locked,
+a.site-nav-sublink.locked:hover {
     color: rgba(255, 255, 255, 0.4);
+    background-color: transparent;
     cursor: not-allowed;
 }
 

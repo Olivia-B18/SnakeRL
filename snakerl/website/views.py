@@ -1,4 +1,4 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request
 from flask_login import current_user, login_required
 from .dbmodels import AI
 from . import flow
@@ -15,44 +15,58 @@ def home():
     return render_template("home.html")
 
 @views.route("/intro")
-# @login_required
-# @flow.step("intro")
+@login_required
+@flow.step("intro")
 def intro():
     return render_template("intro.html")
 
 @views.route("/howtosnake")
-# @login_required
-# @flow.step("howtosnake")
+@login_required
+@flow.step("howtosnake")
 def howtosnake():
     return render_template("howtosnake.html")
 
 @views.route("/playsnake")
-# @login_required
-# @flow.step("playsnake")
+@login_required
+@flow.step("playsnake")
 def playsnake():
     return render_template("playsnake.html")
 
 @views.route("/untrained")
-# @login_required
-# @flow.step("untrained")
+@login_required
+@flow.step("untrained")
 def untrained():
     return render_template("untrained.html")
 
 @views.route("/parameters")
-# @login_required
-# @flow.step("parameters")
+@login_required
+@flow.step("parameters")
 def parameters():
-    return render_template("parameters.html")
+    # Furthest section viewed, so lessonsteps.js can keep sections in order
+    # (None when section order isn't enforced)
+    steps_seen = (flow.substeps_seen("parameters")
+                  if flow.substeps_enforced("parameters") else None)
+    return render_template("parameters.html", steps_seen=steps_seen)
+
+@views.route("/flow/substep", methods=["POST"])
+@login_required
+def record_substep():
+    """Record that a section of a page was viewed (sent by lessonsteps.js)."""
+    data = request.get_json(silent=True) or {}
+    seen = flow.record_substep(data.get("page"), data.get("step"))
+    if seen is None:
+        return {"ok": False}, 400
+    return {"ok": True, "seen": seen}
 
 @views.route("/training")
-# @login_required
-# @flow.step("training")
+@login_required
+@flow.step("training")
 def training():
     return render_template("training.html", params=PARAMS)
 
 @views.route("/evaluation")
-# @login_required
-# @flow.step("evaluation")
+@login_required
+@flow.step("evaluation")
 def evaluation():
     ai = None
     if current_user.is_authenticated:
@@ -63,8 +77,8 @@ def evaluation():
     return render_template("evaluation.html", params=PARAMS, ai=ai)
 
 @views.route("/reflection")
-# @login_required
-# @flow.step("reflection")
+@login_required
+@flow.step("reflection")
 def reflection():
     return render_template("reflection.html")
 
