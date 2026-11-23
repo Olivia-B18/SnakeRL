@@ -42,10 +42,8 @@ document.fonts.load(messageFont)
     .then(() => {
         drawMessages([
             "Use the sliders below to select",
-            "hyperparameters for training.",
-            "",
-            "Then press train below and watch",
-            "the agent earn points.",
+            "hyperparameters, press train below,",
+            "and watch the agent earn points.",
             "",
             "Fully train an agent to then",
             "evaluate it in the next step."
